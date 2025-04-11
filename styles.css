@@ -1,0 +1,352 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    color: #1A1A1A;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+body {
+    background: #F5F5F5;
+    scroll-behavior: smooth;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Gradient Spheres */
+.gradient-sphere {
+    position: absolute;
+    width: 600px; /* Increased size */
+    height: 600px; /* Increased size */
+    border-radius: 50%;
+    filter: blur(150px); /* Increased blur */
+    opacity: 0.3;
+    z-index: -1; /* Ensure spheres are behind the content */
+    transform: translate(-50%, -50%); /* Center the spheres based on their center */
+}
+
+/* Positioning the gradient spheres at the corners */
+.gradient-sphere.top-left {
+    top: 0;
+    left: 0;
+    transform: translate(-30%, -30%); /* Adjust to move slightly outside the visible area */
+}
+
+.gradient-sphere.bottom-right {
+    bottom: 0;
+    right: 0;
+    transform: translate(30%, 30%); /* Adjust to move slightly outside the visible area */
+}
+
+.gradient-sphere.top-right {
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%); /* Adjust to move slightly outside the visible area */
+}
+
+.gradient-sphere.bottom-left {
+    bottom: 0;
+    left: 0;
+    transform: translate(-30%, 30%); /* Adjust to move slightly outside the visible area */
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #F5F5F5;
+    padding: 15px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between text and image */
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    color: #1A1A1A;
+}
+.logo-img {
+    width: 40px; /* Adjust based on your logo’s aspect ratio */
+    height: 40px;
+    object-fit: contain; /* Ensures logo isn’t distorted */
+    border-radius: 5px; /* Optional: subtle rounding */
+    transition: transform 0.3s ease; /* Animation for hover */
+}
+
+.logo-img:hover {
+    transform: scale(1.1); /* Slight zoom on hover for fancy effect */
+}
+.navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar ul li {
+    margin-left: 20px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    font-weight: 700;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.navbar ul li a:hover {
+    color: #00ADB5;
+}
+
+/* Sections */
+.section {
+    padding: 80px 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Ensure relative positioning for absolute spheres */
+    overflow: hidden; /* Hide any overflowing spheres */
+}
+
+.container {
+    background: #F5F5F5;
+    padding: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 1s ease-in;
+    position: relative; /* Ensure container is above spheres */
+    z-index: 1; /* Ensure container is above spheres */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+/* CTA Button */
+.cta-button {
+    background: #00ADB5;
+    color: #F5F5F5;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    background: #008c93;
+}
+
+/* Services Grid */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.service-card {
+    background: #F5F5F5;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.teal-icon {
+    background: #00ADB5;
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* Portfolio Grid */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.portfolio-item {
+    position: relative;
+    height: 200px;
+    background: #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.teal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 173, 181, 0.5);
+    transition: opacity 0.3s;
+}
+
+.portfolio-item:hover .teal-overlay {
+    opacity: 0.7;
+}
+
+/* Testimonials */
+.testimonial-card {
+    background: #F5F5F5;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+/* Contact Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+input, textarea {
+    padding: 15px;
+    border: 1px solid #1A1A1A;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Footer */
+footer {
+    background: #F5F5F5;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+/* Smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .gradient-sphere {
+        width: 400px;
+        height: 400px;
+        filter: blur(80px);
+    }
+
+    .navbar {
+        padding: 10px 20px;
+    }
+
+    .navbar ul {
+        padding: 0px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .navbar ul li {
+        margin-left: 10px;
+    }
+
+    .navbar ul li a {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .section {
+        padding: 60px 10px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gradient-sphere {
+        width: 300px;
+        height: 300px;
+        filter: blur(60px);
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .navbar ul li {
+        margin-left: 5px;
+    }
+
+    .navbar ul li a {
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}
+
+    
