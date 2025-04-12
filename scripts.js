@@ -1,44 +1,14 @@
-// Wait for the DOM to be loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Menu Toggle
-    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    
-    if (mobileMenuToggle && mainNav) {
-        mobileMenuToggle.addEventListener('click', function() {
-            this.classList.toggle('active');
-            mainNav.classList.toggle('active');
-        });
-    }
-    
-    // Smooth Scrolling for Navigation
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Close mobile menu if open
-            if (mobileMenuToggle && mobileMenuToggle.classList.contains('active')) {
-                mobileMenuToggle.classList.remove('active');
-                mainNav.classList.remove('active');
-            }
-            
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                window.scrollTo({
-                    top: targetSection.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
+    // Initialize AOS animation library
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false
     });
-    
-    // Header Scroll Effect
-    const header = document.querySelector('.header');
-    
+
+    // Header scroll effect
+    const header = document.querySelector('header');
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
@@ -46,175 +16,120 @@ document.addEventListener('DOMContentLoaded', function() {
             header.classList.remove('scrolled');
         }
     });
+
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const navItems = document.querySelectorAll('.nav-links li');
     
-    // Stats Counter Animation
-    const stats = [
-        { id: 'years-count', target: 5 },
-        { id: 'clients-count', target: 100 },
-        { id: 'projects-count', target: 150 },
-        { id: 'techs-count', target: 25 }
-    ];
-    
-    const statsSection = document.getElementById('why-us');
-    let countersAnimated = false;
-    
-    function animateCounters() {
-        if (countersAnimated) return;
-        
-        stats.forEach(stat => {
-            const element = document.getElementById(stat.id);
-            if (!element) return;
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
             
-            let count = 0;
-            const increment = Math.ceil(stat.target / 50);
-            const duration = 1500; // ms
-            const interval = duration / (stat.target / increment);
-            
-            const counter = setInterval(() => {
-                count += increment;
-                if (count >= stat.target) {
-                    element.textContent = stat.target;
-                    clearInterval(counter);
+            // Animate nav items
+            navItems.forEach((item, index) => {
+                if (item.style.animation) {
+                    item.style.animation = '';
                 } else {
-                    element.textContent = count;
+                    item.style.animation = `navItemFade 0.5s ease forwards ${index * 0.1 + 0.3}s`;
                 }
-            }, interval);
-        });
-        
-        countersAnimated = true;
-    }
-    
-    // Testimonial Slider
-    const testimonials = document.querySelectorAll('.testimonial');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.control-prev');
-    const nextBtn = document.querySelector('.control-next');
-    let currentIndex = 0;
-    
-    function showTestimonial(index) {
-        testimonials.forEach((testimonial, i) => {
-            testimonial.classList.remove('active');
-            dots[i].classList.remove('active');
-        });
-        
-        testimonials[index].classList.add('active');
-        dots[index].classList.add('active');
-        currentIndex = index;
-    }
-    
-    if (prevBtn && nextBtn && dots.length > 0) {
-        prevBtn.addEventListener('click', function() {
-            let newIndex = currentIndex - 1;
-            if (newIndex < 0) newIndex = testimonials.length - 1;
-            showTestimonial(newIndex);
-        });
-        
-        nextBtn.addEventListener('click', function() {
-            let newIndex = currentIndex + 1;
-            if (newIndex >= testimonials.length) newIndex = 0;
-            showTestimonial(newIndex);
-        });
-        
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', function() {
-                showTestimonial(index);
             });
         });
-        
-        // Auto rotate testimonials
-        setInterval(function() {
-            let newIndex = currentIndex + 1;
-            if (newIndex >= testimonials.length) newIndex = 0;
-            showTestimonial(newIndex);
-        }, 5000);
     }
-    
-    // Scroll Animation for Sections
-    const sections = document.querySelectorAll('section');
-    
-    function checkSections() {
-        const triggerBottom = window.innerHeight * 0.8;
-        
-        sections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
             
-            if (sectionTop < triggerBottom) {
-                section.style.opacity = '1';
-                section.style.transform = 'translateY(0)';
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
                 
-                // Trigger counter animation if this is the Why Us section
-                if (section.id === 'why-us') {
-                    animateCounters();
+                // Close mobile menu if open
+                if (navLinks.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    navItems.forEach(item => {
+                        item.style.animation = '';
+                    });
                 }
             }
         });
-    }
-    
-    // Set initial styles for sections
-    sections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     });
-    
-    // Initial check and add scroll event
-    checkSections();
-    window.addEventListener('scroll', checkSections);
-    
-    // Waterfall Canvas Background
-    const canvas = document.getElementById('waterfall-canvas');
-    
+
+    // Particles animation for hero section
+    const canvas = document.getElementById('particles');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Resize canvas when window is resized
+        window.addEventListener('resize', function() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-        }
-        
-        // Set up the canvas
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        
-        // Particle class for waterfall effect
+        });
+
+        // Particle class
         class Particle {
             constructor() {
-                this.reset();
-            }
-            
-            reset() {
                 this.x = Math.random() * canvas.width;
-                this.y = Math.random() * -canvas.height - 50;
-                this.size = Math.random() * 2.5 + 0.5; // More varied size
-                this.speed = Math.random() * 2 + 1.5; // Slightly faster overall for smoother appearance
-                this.opacity = Math.random() * 0.5 + 0.3; // Slightly higher minimum opacity
-                
-                // Smoother Green color spectrum with better distribution
-                const greenValue = Math.floor(Math.random() * 80 + 175); // 175-255 range for green
-                const blueValue = Math.floor(Math.random() * 40 + 110);  // 110-150 range for blue
-                this.color = `rgba(16, ${greenValue}, ${blueValue}, ${this.opacity})`;
-                
-                // Add slight horizontal movement for more natural flow
-                this.wobble = Math.random() * 1 - 0.5;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.color = 'rgba(255, 255, 255, 0.3)';
+                this.originalX = this.x;
+                this.originalY = this.y;
+                this.density = (Math.random() * 30) + 1;
             }
-            
-            update() {
-                this.y += this.speed;
-                this.x += this.wobble;
-                
-                // Reset particle when it goes off screen
-                if (this.y > canvas.height) {
-                    this.reset();
+
+            update(mouse) {
+                // Movement with mouse interaction
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                let forceDirectionX = dx / distance;
+                let forceDirectionY = dy / distance;
+                let maxDistance = 100;
+                let force = (maxDistance - distance) / maxDistance;
+                let directionX = forceDirectionX * force * this.density * 0.6;
+                let directionY = forceDirectionY * force * this.density * 0.6;
+
+                if (distance < maxDistance) {
+                    this.x -= directionX;
+                    this.y -= directionY;
+                } else {
+                    if (this.x !== this.originalX) {
+                        let dx = this.originalX - this.x;
+                        this.x += dx / 10;
+                    }
+                    if (this.y !== this.originalY) {
+                        let dy = this.originalY - this.y;
+                        this.y += dy / 10;
+                    }
                 }
-                
-                // Reset if particle moves too far left/right
-                if (this.x < -50 || this.x > canvas.width + 50) {
-                    this.reset();
+
+                // Boundary check
+                if (this.x > canvas.width || this.x < 0) {
+                    this.speedX = -this.speedX;
                 }
-                
-                this.draw();
+                if (this.y > canvas.height || this.y < 0) {
+                    this.speedY = -this.speedY;
+                }
+
+                // Move particle
+                this.x += this.speedX;
+                this.y += this.speedY;
             }
-            
+
             draw() {
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
@@ -222,97 +137,212 @@ document.addEventListener('DOMContentLoaded', function() {
                 ctx.fill();
             }
         }
-        
-        // Create particles
+
+        // Mouse position
+        let mouse = {
+            x: null,
+            y: null
+        };
+
+        window.addEventListener('mousemove', function(event) {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        // Create particle array
         const particles = [];
-        const particleCount = Math.floor((canvas.width * canvas.height) / 8000);
-        
+        const particleCount = 100;
+
         for (let i = 0; i < particleCount; i++) {
             particles.push(new Particle());
         }
-        
-        // Animation loop for waterfall effect
-        let lastTime = 0;
-        const fps = 60;
-        const frameTime = 1000 / fps;
-        
-        function animate(timestamp = 0) {
-            // Calculate time elapsed and only render if enough time has passed
-            // This helps maintain consistent animation speed regardless of device performance
-            const elapsed = timestamp - lastTime;
+
+        // Animation function
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            if (elapsed > frameTime) {
-                lastTime = timestamp - (elapsed % frameTime);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(mouse);
+                particles[i].draw();
                 
-                // Create gradient background
-                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                gradient.addColorStop(0, '#10B981'); // Emerald (primary-color)
-                gradient.addColorStop(1, '#059669'); // Emerald dark (primary-dark)
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                // Update particles
-                particles.forEach(particle => {
-                    particle.update();
-                });
-                
-                // Add some flowing lines
-                drawFlowingLines();
+                // Connect particles with lines
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance/1000})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
             }
             
             requestAnimationFrame(animate);
         }
         
-        // Draw flowing lines for additional waterfall effect
-        function drawFlowingLines() {
-            const lineCount = Math.floor(canvas.width / 50);
-            
-            for (let i = 0; i < lineCount; i++) {
-                const x = i * 50 + Math.sin(Date.now() * 0.0005 + i) * 20;
-                
-                ctx.beginPath();
-                ctx.moveTo(x, 0);
-                
-                // Use more points for smoother curves
-                for (let y = 0; y < canvas.height; y += 10) {
-                    // Create a wavy line using sine function with slower animation
-                    const offsetX = Math.sin((Date.now() * 0.0003) + (y * 0.008) + i) * 20;
-                    ctx.lineTo(x + offsetX, y);
-                }
-                
-                // Smoother lines with slightly more opacity
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-            }
-        }
-        
-        // Start the animation
         animate();
     }
+
+    // Process section animation
+    const processItems = document.querySelectorAll('.process-item');
     
-    // Contact Form Submission
+    function checkProcessItems() {
+        const triggerBottom = window.innerHeight / 5 * 4;
+        
+        processItems.forEach(item => {
+            const itemTop = item.getBoundingClientRect().top;
+            
+            if (itemTop < triggerBottom) {
+                item.classList.add('visible');
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', checkProcessItems);
+    checkProcessItems(); // Run once on load
+
+    // Testimonial slider
+    const testimonialTrack = document.querySelector('.testimonial-track');
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let currentIndex = 0;
+    let autoSlideInterval;
+
+    function updateTestimonialPosition() {
+        testimonialTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        // Update active dot
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[currentIndex].classList.add('active');
+        
+        // Update active card
+        testimonialCards.forEach(card => card.classList.remove('active'));
+        testimonialCards[currentIndex].classList.add('active');
+    }
+
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            currentIndex = (currentIndex === testimonialCards.length - 1) ? 0 : currentIndex + 1;
+            updateTestimonialPosition();
+        }, 5000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+    }
+
+    if (dots.length > 0) {
+        dots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                currentIndex = parseInt(this.getAttribute('data-index'));
+                updateTestimonialPosition();
+                resetAutoSlide();
+            });
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            currentIndex = (currentIndex === 0) ? testimonialCards.length - 1 : currentIndex - 1;
+            updateTestimonialPosition();
+            resetAutoSlide();
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            currentIndex = (currentIndex === testimonialCards.length - 1) ? 0 : currentIndex + 1;
+            updateTestimonialPosition();
+            resetAutoSlide();
+        });
+    }
+
+    // Start auto slide
+    startAutoSlide();
+
+    // Pause auto slide on hover
+    testimonialTrack.addEventListener('mouseenter', () => {
+        clearInterval(autoSlideInterval);
+    });
+
+    testimonialTrack.addEventListener('mouseleave', startAutoSlide);
+
+    // Form submission
     const contactForm = document.querySelector('.contact-form');
     
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form data
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const company = document.getElementById('company').value;
-            const message = document.getElementById('message').value;
+            // In a real implementation, you would send the form data to a server
+            const formData = new FormData(this);
+            const formValues = {};
             
-            // Here you would normally send the data to a server
-            // For this example, we'll just show a success message
+            for (let [key, value] of formData.entries()) {
+                formValues[key] = value;
+            }
             
-            // Clear the form
-            contactForm.reset();
+            console.log('Form submitted:', formValues);
+            
+            // Reset form
+            this.reset();
+            
+            // Remove any existing success message
+            const existingMessage = this.parentElement.querySelector('.success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
             
             // Show success message
-            alert('Thank you for your message! We will get back to you soon.');
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = 'Thank you for your message! We will get back to you soon.';
+            successMessage.style.color = '#0a8a5f';
+            successMessage.style.padding = '1rem';
+            successMessage.style.marginTop = '1rem';
+            successMessage.style.backgroundColor = 'rgba(10, 138, 95, 0.1)';
+            successMessage.style.borderRadius = '5px';
+            successMessage.style.animation = 'fadeIn 0.5s ease forwards';
+            
+            this.parentElement.appendChild(successMessage);
+            
+            // Remove success message after 5 seconds
+            setTimeout(() => {
+                successMessage.style.animation = 'fadeOut 0.5s ease forwards';
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 500);
+            }, 5000);
         });
     }
+
+    // Add animation for nav items
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes navItemFade {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 });
