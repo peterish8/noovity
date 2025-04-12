@@ -3,481 +3,427 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noovity - Software Solutions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
-    <style>
-        /* General Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-            color: #1A1A1A;
-            transition: color 0.3s, background-color 0.3s;
-        }
-
-        body {
-            background: #F5F5F5;
-            scroll-behavior: smooth;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-        }
-
-        /* Gradient Spheres */
-        .gradient-sphere {
-            position: absolute;
-            width: 800px; /* Increased size */
-            height: 800px; /* Increased size */
-            border-radius: 50%;
-            filter: blur(200px); /* Increased blur */
-            opacity: 0.4;
-            z-index: -1; /* Ensure spheres are behind the content */
-            transform: translate(-50%, -50%); /* Center the spheres based on their center */
-        }
-
-        /* Positioning the gradient spheres at the corners */
-        .gradient-sphere.top-left {
-            top: 0;
-            left: 0;
-            transform: translate(-30%, -30%); /* Adjust to move slightly outside the visible area */
-        }
-
-        .gradient-sphere.bottom-right {
-            bottom: 0;
-            right: 0;
-            transform: translate(30%, 30%); /* Adjust to move slightly outside the visible area */
-        }
-
-        .gradient-sphere.top-right {
-            top: 0;
-            right: 0;
-            transform: translate(30%, -30%); /* Adjust to move slightly outside the visible area */
-        }
-
-        .gradient-sphere.bottom-left {
-            bottom: 0;
-            left: 0;
-            transform: translate(-30%, 30%); /* Adjust to move slightly outside the visible area */
-        }
-
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: #F5F5F5;
-            padding: 15px 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px; /* Space between text and image */
-            font-size: 24px;
-            font-weight: 700;
-            font-family: 'Montserrat', sans-serif;
-            color: #1A1A1A;
-        }
-        .logo-img {
-            width: 40px; /* Adjust based on your logo’s aspect ratio */
-            height: 40px;
-            object-fit: contain; /* Ensures logo isn’t distorted */
-            border-radius: 5px; /* Optional: subtle rounding */
-            transition: transform 0.3s ease; /* Animation for hover */
-        }
-
-        .logo-img:hover {
-            transform: scale(1.1); /* Slight zoom on hover for fancy effect */
-        }
-        .navbar ul {
-            list-style: none;
-            display: flex;
-        }
-
-        .navbar ul li {
-            margin-left: 20px;
-        }
-
-        .navbar ul li a {
-            text-decoration: none;
-            font-weight: 700;
-            padding: 10px;
-            transition: color 0.3s;
-        }
-
-        .navbar ul li a:hover {
-            color: #00ADB5;
-        }
-
-        /* Sections */
-        .section {
-            padding: 80px 20px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative; /* Ensure relative positioning for absolute spheres */
-            overflow: hidden; /* Hide any overflowing spheres */
-        }
-
-        .container {
-            background: #F5F5F5;
-            padding: 40px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            max-width: 1200px;
-            width: 100%;
-            text-align: center;
-            animation: fadeIn 1s ease-in;
-            position: relative; /* Ensure container is above spheres */
-            z-index: 1; /* Ensure container is above spheres */
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 18px;
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-
-        /* CTA Button */
-        .cta-button {
-            background: #00ADB5;
-            color: #F5F5F5;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: 700;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
-        }
-
-        .cta-button:hover {
-            transform: scale(1.05);
-            background: #008c93;
-        }
-
-        /* Services Grid */
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .service-card {
-            background: #F5F5F5;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        .teal-icon {
-            background: #00ADB5;
-            width: 50px;
-            height: 50px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        /* Portfolio Grid */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .portfolio-item {
-            position: relative;
-            height: 200px;
-            background: #ccc;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .teal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 173, 181, 0.5);
-            transition: opacity 0.3s;
-        }
-
-        .portfolio-item:hover .teal-overlay {
-            opacity: 0.7;
-        }
-
-        /* Testimonials */
-        .testimonial-card {
-            background: #F5F5F5;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        /* Contact Form */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        input, textarea {
-            padding: 15px;
-            border: 1px solid #1A1A1A;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Footer */
-        footer {
-            background: #F5F5F5;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-        }
-        /* Smooth scrolling for anchor links */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Media queries for responsiveness */
-        @media (max-width: 768px) {
-            .gradient-sphere {
-                width: 600px;
-                height: 600px;
-                filter: blur(150px);
-            }
-
-            .navbar {
-                padding: 10px 20px;
-            }
-
-            .navbar ul {
-                padding: 0px;
-            }
-
-            .logo {
-                font-size: 20px;
-            }
-
-            .navbar ul li {
-                margin-left: 10px;
-            }
-
-            .navbar ul li a {
-                padding: 8px;
-                font-size: 14px;
-            }
-
-            .section {
-                padding: 60px 10px;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 36px;
-            }
-
-            h2 {
-                font-size: 24px;
-            }
-
-            p {
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .gradient-sphere {
-                width: 500px;
-                height: 500px;
-                filter: blur(120px);
-            }
-
-            .logo {
-                font-size: 18px;
-            }
-
-            .navbar ul li {
-                margin-left: 5px;
-            }
-
-            .navbar ul li a {
-                padding: 5px;
-                font-size: 12px;
-            }
-
-            h1 {
-                font-size: 28px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-
-            .cta-button {
-                padding: 10px 20px;
-                font-size: 16px;
-            }
-        }
-    </style>
+    <title>Noovity - Crafting Digital Excellence</title>
+    <meta name="description" content="Noovity - A Softcraft venture delivering powerful software solutions tailored for growth.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <img src="logo.png" class = "logo-img">
-                <span>Noovity</span>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <!-- Noovity Logo SVG recreated based on the provided image -->
+                    <svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M135 20C135 20 135 90 135 110C135 130 115 130 100 130C85 130 65 130 65 110C65 90 65 20 65 20C65 20 55 20 40 20C25 20 10 35 10 50C10 65 10 110 10 125C10 155 40 180 70 180C85 180 100 175 110 165C120 175 135 180 150 180C180 180 190 155 190 125C190 110 190 65 190 50C190 35 175 20 160 20C145 20 135 20 135 20Z" fill="#10B981"/>
+                    </svg>
+                    <span>Noovity</span>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#home" class="nav-link">Home</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#services" class="nav-link">Services</a></li>
+                        <li><a href="#why-us" class="nav-link">Why Us</a></li>
+                        <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                        <li><a href="#contact" class="nav-link btn-nav">Contact Us</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
-            <ul>
-                <li><a href="#hero" data-scroll>Home</a></li>
-                <li><a href="#about" data-scroll>About</a></li>
-                <li><a href="#services" data-scroll>Services</a></li>
-                <li><a href="#portfolio" data-scroll>Portfolio</a></li>
-                <li><a href="#testimonials" data-scroll>Testimonials</a></li>
-                <li><a href="#contact" data-scroll>Contact</a></li>
-            </ul>
-        </nav>
+        </div>
     </header>
 
     <!-- Hero Section -->
-    <section id="hero" class="section">
-        <!-- Gradient Spheres -->
-        <div class="gradient-sphere top-left" style="background: #00ADB5;"></div>
-        <div class="gradient-sphere bottom-right" style="background: #8FBC8F;"></div>
-
+    <section id="home" class="hero">
+        <canvas id="waterfall-canvas"></canvas>
         <div class="container">
-            <h1>Welcome to Noovity</h1>
-            <p>Crafting innovative software solutions for your business.</p>
-            <button class="cta-button">Get Started</button>
+            <div class="hero-content">
+                <h1>Crafting Digital Excellence with Noovity</h1>
+                <p>A Softcraft venture delivering powerful software solutions tailored for growth.</p>
+                <a href="#contact" class="btn btn-primary">Let's Build Together</a>
+            </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section">
-        <!-- Gradient Spheres -->
-        <div class="gradient-sphere top-right" style="background: #8FBC8F;"></div>
-        <div class="gradient-sphere bottom-left" style="background: #B8860B;"></div>
-
+    <section id="about" class="about">
         <div class="container">
-            <h2>About Noovity</h2>
-            <p>Under Softcraft, Noovity delivers cutting-edge technology with a passion for excellence.</p>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="section">
-        <!-- Gradient Spheres -->
-        <div class="gradient-sphere top-left" style="background: #B8860B;"></div>
-        <div class="gradient-sphere bottom-right" style="background: #708090;"></div>
-
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="service-grid">
-                <div class="service-card">
-                    <i class="icon teal-icon"></i>
-                    <h3>Web Development</h3>
-                    <p>Modern, responsive websites tailored to your needs.</p>
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About Noovity</h2>
+                    <p>At Noovity, we're a team of passionate software engineers, designers, and digital strategists who are dedicated to helping businesses thrive in the digital space.</p>
+                    <p>Backed by Softcraft's expertise and industry experience, we bring innovation and technical excellence to every project we undertake.</p>
+                    
+                    <div class="values">
+                        <div class="value-item">
+                            <div class="value-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                                </svg>
+                            </div>
+                            <h3>Trust</h3>
+                            <p>Building reliable solutions and lasting relationships</p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </div>
+                            <h3>Innovation</h3>
+                            <p>Embracing new technologies and creative solutions</p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            </div>
+                            <h3>Partnership</h3>
+                            <p>Working together to achieve exceptional results</p>
+                        </div>
+                    </div>
                 </div>
-                <!-- Add more service cards -->
+                <div class="about-image">
+                    <div class="image-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="section">
-        <!-- Gradient Spheres -->
-        <div class="gradient-sphere top-right" style="background: #708090;"></div>
-        <div class="gradient-sphere bottom-left" style="background: #36454F;"></div>
-
+    <!-- Services Section -->
+    <section id="services" class="services">
         <div class="container">
-            <h2>Our Work</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <div class="teal-overlay"></div>
-                    <p>Project 1</p>
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3>Web App Development</h3>
+                    <p>Stunning, responsive web applications</p>
                 </div>
-                <!-- Add more portfolio items -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 19l9 2-9-18-9 18 9-2z"></path>
+                        </svg>
+                    </div>
+                    <h3>Mobile App Development</h3>
+                    <p>Native and cross-platform mobile apps</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                        </svg>
+                    </div>
+                    <h3>Data Analytics</h3>
+                    <p>Insights to power business decisions</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                            <line x1="6" y1="1" x2="6" y2="4"></line>
+                            <line x1="10" y1="1" x2="10" y2="4"></line>
+                            <line x1="14" y1="1" x2="14" y2="4"></line>
+                        </svg>
+                    </div>
+                    <h3>UI/UX Design</h3>
+                    <p>User-centered design that converts</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h3>Cloud Solutions</h3>
+                    <p>Scalable infrastructure for growth</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+                            <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+                            <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+                            <line x1="14.83" y1="9.17" x2="18.36" y2="5.64"></line>
+                            <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line>
+                        </svg>
+                    </div>
+                    <h3>Custom Software</h3>
+                    <p>Tailored solutions for unique needs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="why-us">
+        <div class="container">
+            <h2 class="section-title">Why Choose Us</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-value"><span id="years-count">5</span>+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value"><span id="clients-count">100</span>+</div>
+                    <div class="stat-label">Satisfied Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value"><span id="projects-count">150</span>+</div>
+                    <div class="stat-label">Completed Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value"><span id="techs-count">25</span>+</div>
+                    <div class="stat-label">Technologies</div>
+                </div>
+            </div>
+            <div class="tech-stack">
+                <div class="tech-icons">
+                    <!-- Tech Icons using SVG -->
+                    <div class="tech-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </div>
+                    <div class="tech-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 10h-4V4H8v6H4l7 7 7-7zm-8 8v2h8v-2H10z"></path>
+                        </svg>
+                    </div>
+                    <div class="tech-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <div class="tech-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tech-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+                            <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+                            <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+                            <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+                            <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+                            <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+                        </svg>
+                    </div>
+                    <div class="tech-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="section">
-        <!-- Gradient Spheres -->
-        <div class="gradient-sphere top-left" style="background: #36454F;"></div>
-        <div class="gradient-sphere bottom-right" style="background: #00ADB5;"></div>
-
+    <section id="testimonials" class="testimonials">
         <div class="container">
-            <h2>What Our Clients Say</h2>
-            <div class="testimonial-card">
-                <p>"Noovity transformed our business!"</p>
-                <p>- Happy Client</p>
+            <h2 class="section-title">What Our Clients Say</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-container">
+                    <div class="testimonial active">
+                        <div class="testimonial-content">
+                            <p>"Noovity transformed our business with their custom software solution. Their team was responsive, professional, and delivered exactly what we needed."</p>
+                            <div class="client-info">
+                                <div class="client-name">Sarah Johnson</div>
+                                <div class="client-position">CEO, TechStart Inc.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p>"Working with Noovity has been a game-changer for our company. Their mobile app development exceeded our expectations and helped us reach new customers."</p>
+                            <div class="client-info">
+                                <div class="client-name">Michael Chen</div>
+                                <div class="client-position">CTO, GrowthPath</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p>"The data analytics solution that Noovity built for us has given us incredible insights into our business. We're now making better decisions faster than ever before."</p>
+                            <div class="client-info">
+                                <div class="client-name">Emily Rodriguez</div>
+                                <div class="client-position">COO, DataDrive Solutions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-controls">
+                    <button class="control-prev" aria-label="Previous testimonial">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="testimonial-dots">
+                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="1"></span>
+                        <span class="dot" data-index="2"></span>
+                    </div>
+                    <button class="control-next" aria-label="Next testimonial">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <!-- Gradient Spheres -->
-        <div class="gradient-sphere top-right" style="background: #00ADB5;"></div>
-        <div class="gradient-sphere bottom-left" style="background: #E0E0E0;"></div>
-
+    <!-- CTA / Contact Section -->
+    <section id="contact" class="contact">
         <div class="container">
-            <h2>Contact Us</h2>
-            <form>
-                <input type="text" placeholder="Name" required>
-                <input type="email" placeholder="Email" required>
-                <textarea placeholder="Message" required></textarea>
-                <button type="submit" class="cta-button">Send</button>
-            </form>
+            <div class="contact-box">
+                <div class="contact-content">
+                    <h2>Let's bring your vision to life. Reach out today.</h2>
+                    <a href="#contact-form" class="btn btn-light">Get a Free Consultation</a>
+                </div>
+            </div>
+            <div id="contact-form" class="form-container">
+                <h3>Contact Us</h3>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Noovity by Softcraft. All rights reserved.</p>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <!-- Noovity Logo SVG -->
+                    <svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M135 20C135 20 135 90 135 110C135 130 115 130 100 130C85 130 65 130 65 110C65 90 65 20 65 20C65 20 55 20 40 20C25 20 10 35 10 50C10 65 10 110 10 125C10 155 40 180 70 180C85 180 100 175 110 165C120 175 135 180 150 180C180 180 190 155 190 125C190 110 190 65 190 50C190 35 175 20 160 20C145 20 135 20 135 20Z" fill="#10B981"/>
+                    </svg>
+                    <div class="footer-brand">
+                        <span class="company-name">Noovity</span>
+                        <span class="company-subtitle">A Softcraft venture</span>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-links-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#services">Services</a></li>
+                            <li><a href="#why-us">Why Us</a></li>
+                            <li><a href="#testimonials">Testimonials</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-column">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="#services">Web Development</a></li>
+                            <li><a href="#services">Mobile Development</a></li>
+                            <li><a href="#services">Data Analytics</a></li>
+                            <li><a href="#services">UI/UX Design</a></li>
+                            <li><a href="#services">Cloud Solutions</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-column">
+                        <h4>Connect</h4>
+                        <div class="social-icons">
+                            <a href="#" aria-label="LinkedIn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                    <rect x="2" y="9" width="4" height="12"></rect>
+                                    <circle cx="4" cy="4" r="2"></circle>
+                                </svg>
+                            </a>
+                            <a href="#" aria-label="Twitter">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                                </svg>
+                            </a>
+                            <a href="#" aria-label="Instagram">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg>
+                            </a>
+                            <a href="#" aria-label="GitHub">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Noovity. All rights reserved. A Softcraft venture.</p>
+            </div>
+        </div>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
-    
