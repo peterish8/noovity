@@ -1388,3 +1388,15 @@ footer {
     opacity: 1 !important;
     transform: translate(0) scale(1) !important;
 }
+
+/* AOS Fallback for JavaScript Disabled */
+@media (prefers-reduced-motion: no-preference) {
+    :not(.aos-animate) [data-aos] {
+        opacity: 0 !important;
+        transition: none !important;
+    }
+}
+noscript [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+}
