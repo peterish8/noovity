@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             aosScript.onload = () => {
                 if (typeof AOS !== 'undefined') {
                     AOS.init({
-                        duration: 400, // Reduced duration for faster animations
+                        duration: 800,
                         easing: 'ease-in-out',
                         once: true,
                         mirror: false,
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.log('AOS successfully loaded, version:', AOS.version);
             AOS.init({
-                duration: 400, // Reduced duration for faster animations
+                duration: 800,
                 easing: 'ease-in-out',
                 once: true,
                 mirror: false,
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (item.style.animation) {
                     item.style.animation = '';
                 } else {
-                    item.style.animation = `navItemFade 0.3s ease forwards ${index * 0.05 + 0.15}s`; // Speeded up
+                    item.style.animation = `navItemFade 0.5s ease forwards ${index * 0.1 + 0.3}s`;
                 }
             });
         });
@@ -218,34 +218,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // About section bubble interaction with cursor
-    const floatingElements = document.querySelectorAll('.floating-element');
-    if (floatingElements.length > 0) {
-        window.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-
-            floatingElements.forEach((element, index) => {
-                const rect = element.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                const dx = mouseX - centerX;
-                const dy = mouseY - centerY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const maxDistance = 200;
-                const force = (maxDistance - distance) / maxDistance * 20;
-
-                if (distance < maxDistance) {
-                    element.style.transition = 'transform 0.3s ease-out';
-                    element.style.transform = `translate(${dx * force / 1000}px, ${dy * force / 1000}px)`;
-                } else {
-                    element.style.transition = 'transform 1s ease-out';
-                    element.style.transform = `translate(0, 0)`;
-                }
-            });
-        });
-    }
-
     // Testimonial slider with infinite right scroll and touch support
     const testimonialTrack = document.querySelector('.testimonial-track');
     const testimonialCards = document.querySelectorAll('.testimonial-card');
@@ -293,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function setPositionByIndex() {
-            currentIndex = currentIndex % testimonialCards.length;
+            currentIndex = currentIndex % testimonialCards.length; // Infinite loop
             if (currentIndex < 0) currentIndex = testimonialCards.length - 1;
             testimonialTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
             prevTranslate = -currentIndex * testimonialTrack.offsetWidth;
@@ -310,9 +282,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function startAutoSlide() {
             autoSlideInterval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % testimonialCards.length;
+                currentIndex = (currentIndex + 1) % testimonialCards.length; // Infinite right scroll
                 setPositionByIndex();
-            }, 3000); // Speeded up auto-slide
+            }, 5000);
         }
 
         setPositionByIndex();
@@ -403,8 +375,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             setTimeout(() => {
                 message.style.opacity = '0';
-                setTimeout(() => message.remove(), 300); // Speeded up
-            }, 2000); // Speeded up
+                setTimeout(() => message.remove(), 500);
+            }, 5000);
         }
     }
 
