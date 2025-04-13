@@ -1389,7 +1389,7 @@ footer {
     transform: translate(0) scale(1) !important;
 }
 
-/* AOS Fallback for JavaScript Disabled */
+/* AOS Fallback for JavaScript Disabled (Adjusted) */
 @media (prefers-reduced-motion: no-preference) {
     :not(.aos-animate) [data-aos] {
         opacity: 0 !important;
