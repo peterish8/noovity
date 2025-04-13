@@ -9,9 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- AOS CSS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Fallback AOS CSS -->
+    <!-- AOS CSS with Local Fallback -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" onerror="this.onerror=null;this.href='/aos.css';">
     <noscript>
         <style>
             [data-aos] {
@@ -139,8 +138,8 @@
                         <ul>
                             <li>Requirement analysis</li>
                             <li>Custom application development</li>
-                            <li>API development & integration</li>
-                            <li>Legacy system modernization</li>
+                            <li>Legacy system modernization</li> <!-- Removed API development & integration -->
+                            <li>Ongoing maintenance & updates</li>
                         </ul>
                     </div>
                 </div>
@@ -168,8 +167,7 @@
                     <div class="service-details">
                         <ul>
                             <li>Native Android development</li>
-                            <li>Material design implementation</li>
-                            <li>Play Store deployment</li>
+                            <li>Play Store deployment</li> <!-- Removed Material design implementation -->
                             <li>Ongoing maintenance & updates</li>
                         </ul>
                     </div>
@@ -182,49 +180,49 @@
         <div class="container">
             <h2 data-aos="fade-up">Why Choose Us</h2>
             <div class="process-container">
-                <div class="process-item" data-aos="fade-right" data-aos-delay="100">
+                <div class="process-item process-left" data-aos="fade-right" data-aos-delay="100">
                     <div class="process-number">01</div>
                     <div class="process-content">
                         <h3>Discovery</h3>
                         <p>We begin by thoroughly understanding your business needs, challenges, and goals through in-depth consultations.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="200">
+                <div class="process-item process-right" data-aos="fade-left" data-aos-delay="200">
                     <div class="process-number">02</div>
                     <div class="process-content">
                         <h3>Planning</h3>
                         <p>Our team creates a detailed project roadmap with milestones, deliverables, and timelines tailored to your requirements.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="300">
+                <div class="process-item process-left" data-aos="fade-right" data-aos-delay="300">
                     <div class="process-number">03</div>
                     <div class="process-content">
                         <h3>Design</h3>
                         <p>We craft intuitive user experiences and visually appealing interfaces that align with your brand identity.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="400">
+                <div class="process-item process-right" data-aos="fade-left" data-aos-delay="400">
                     <div class="process-number">04</div>
                     <div class="process-content">
                         <h3>Development</h3>
                         <p>Our developers build robust, scalable solutions using the latest technologies and best coding practices.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="500">
+                <div class="process-item process-left" data-aos="fade-right" data-aos-delay="500">
                     <div class="process-number">05</div>
                     <div class="process-content">
                         <h3>Testing</h3>
                         <p>We rigorously test every aspect of the solution to ensure quality, performance, and security standards.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="600">
+                <div class="process-item process-right" data-aos="fade-left" data-aos-delay="600">
                     <div class="process-number">06</div>
                     <div class="process-content">
                         <h3>Deployment</h3>
                         <p>We handle the seamless launch of your solution with minimal disruption to your operations.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="700">
+                <div class="process-item process-left" data-aos="fade-right" data-aos-delay="700">
                     <div class="process-number">07</div>
                     <div class="process-content">
                         <h3>Support</h3>
@@ -353,62 +351,13 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Noovity. All rights reserved. A Softcraft company.</p>
+                <p>© 2025 Noovity. All rights reserved. A Softcraft company.</p>
             </div>
         </div>
     </footer>
 
-    <!-- AOS Initialization with Fallback -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        // Initialize AOS with fallback
-        function initAOS() {
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    easing: 'ease-in-out',
-                    once: true,
-                    mirror: false,
-                    disable: window.innerWidth < 768
-                });
-                console.log('AOS initialized successfully');
-            } else {
-                console.warn('AOS not loaded, trying fallback');
-                // Load from alternative CDN
-                const fallbackScript = document.createElement('script');
-                fallbackScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js';
-                fallbackScript.onload = function() {
-                    AOS.init({
-                        duration: 800,
-                        easing: 'ease-in-out',
-                        once: true,
-                        mirror: false
-                    });
-                };
-                document.body.appendChild(fallbackScript);
-                
-                // Add fallback CSS
-                const fallbackCSS = document.createElement('link');
-                fallbackCSS.rel = 'stylesheet';
-                fallbackCSS.href = 'https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css';
-                document.head.appendChild(fallbackCSS);
-            }
-        }
-
-        // Initialize when DOM is loaded
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            initAOS();
-        } else {
-            document.addEventListener('DOMContentLoaded', initAOS);
-        }
-
-        // Refresh on window load
-        window.addEventListener('load', function() {
-            if (typeof AOS !== 'undefined') {
-                AOS.refresh();
-            }
-        });
-    </script>
+    <!-- AOS Initialization with Local Fallback -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" onerror="this.onerror=null;this.src='/aos.js';"></script>
     <script src="script.js"></script>
 </body>
 </html>
