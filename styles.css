@@ -11,7 +11,7 @@
     --gradient-start: #0a8a5f;
     --gradient-end: #10b97e;
     --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    --transition: all 0.2s ease-in-out; /* Speeded up animations */
+    --transition: all 0.4s ease-in-out;
     --easing: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
@@ -168,7 +168,7 @@ header.scrolled .nav-links a {
     width: 0;
     height: 2px;
     background-color: var(--primary-light);
-    transition: width 0.2s var(--easing); /* Speeded up */
+    transition: width 0.3s var(--easing);
 }
 
 .nav-links a:hover::after {
@@ -176,9 +176,9 @@ header.scrolled .nav-links a {
 }
 
 .nav-cta {
-    background: var(--white); /* Changed to white background */
-    color: var(--primary-color) !important;
-    padding: 0.7rem 2rem;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    color: var(--white) !important;
+    padding: 0.7rem 2rem; /* Slightly bigger to fit text */
     border-radius: 50px;
     transition: var(--transition);
     font-size: 1.1rem;
@@ -187,43 +187,13 @@ header.scrolled .nav-links a {
 }
 
 .nav-cta::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-    transition: left 0.3s ease-in-out; /* Gradient from left to right on hover */
-}
-
-.nav-cta:hover::after {
-    left: 0;
+    display: none;
 }
 
 .nav-cta:hover {
-    color: var(--white);
+    background: linear-gradient(to right, var(--primary-dark), var(--primary-light)); /* Gradient on hover */
     transform: translateY(-3px);
-}
-
-.nav-cta::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to left, var(--gradient-start), var(--gradient-end));
-    transition: right 0.3s ease-in-out; /* Gradient from right to left on unhover */
-    right: -100%;
-}
-
-.nav-cta:not(:hover)::before {
-    right: 0;
-}
-
-.nav-cta::after {
-    display: none; /* Remove default hover effect */
+    color: var(--white);
 }
 
 .hamburger {
@@ -304,7 +274,7 @@ canvas#particles {
     padding: 0 2rem;
     transform: translateY(20px);
     opacity: 0;
-    animation: fadeInUp 0.5s var(--easing) forwards; /* Speeded up */
+    animation: fadeInUp 1s var(--easing) forwards;
 }
 
 @keyframes fadeInUp {
@@ -332,7 +302,7 @@ canvas#particles {
     background: var(--white);
     color: var(--primary-color);
     font-weight: 600;
-    padding: 0.9rem 2.5rem;
+    padding: 0.9rem 2.5rem; /* Slightly bigger to fit text */
     border-radius: 50px;
     transition: var(--transition);
     font-size: 1.1rem;
@@ -344,40 +314,26 @@ canvas#particles {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-    transition: left 0.3s ease-in-out; /* Gradient from left to right on hover */
-}
-
-.cta-button:hover::after {
-    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+    transform: translateX(-100%);
+    transition: transform 0.6s var(--easing);
 }
 
 .cta-button:hover {
-    color: var(--primary-color);
+    background: linear-gradient(to right, var(--primary-dark), var(--primary-light)); /* Gradient on hover */
     transform: translateY(-5px);
+    color: var(--white);
 }
 
-.cta-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to left, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-    transition: right 0.3s ease-in-out; /* Gradient from right to left on unhover */
-    right: -100%;
-}
-
-.cta-button:not(:hover)::before {
-    right: 0;
+.cta-button:hover::after {
+    transform: translateX(100%);
 }
 
 .cta-button.pulse {
-    animation: pulse 1.5s infinite; /* Speeded up */
+    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
@@ -402,7 +358,7 @@ canvas#particles {
     align-items: center;
     z-index: 2;
     opacity: 0;
-    animation: fadeIn 0.5s var(--easing) 0.7s forwards; /* Speeded up */
+    animation: fadeIn 1s var(--easing) 1.5s forwards;
 }
 
 .scroll-indicator span {
@@ -412,7 +368,7 @@ canvas#particles {
     background-color: var(--white);
     margin: 2px 0;
     opacity: 0.6;
-    animation: scrollIndicator 1.5s infinite; /* Speeded up */
+    animation: scrollIndicator 2s infinite;
 }
 
 .scroll-indicator span:nth-child(1) {
@@ -500,14 +456,36 @@ canvas#particles {
     background-color: var(--white);
     border-radius: 10px;
     box-shadow: var(--shadow);
-    transition: transform 0.3s var(--easing), box-shadow 0.3s var(--easing); /* Speeded up */
+    transition: transform 0.6s ease-out, box-shadow 0.6s ease-out;
     position: relative;
     overflow: hidden;
 }
 
+.value-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    z-index: -1;
+    transform: scale(0);
+    transition: transform 0.6s ease-out;
+}
+
+.value-item:hover::before {
+    transform: scale(1.2);
+}
+
 .value-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) rotate(2deg);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    color: var(--white);
+}
+
+.value-item:hover .value-icon {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .value-icon {
@@ -520,19 +498,14 @@ canvas#particles {
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: transform 0.3s var(--easing); /* Speeded up */
+    transition: transform 0.6s ease-out;
 }
 
 .value-icon svg {
     width: 24px;
     height: 24px;
     stroke: var(--primary-color);
-    transition: stroke 0.3s var(--easing); /* Speeded up */
-}
-
-.value-item:hover .value-icon {
-    transform: rotateY(180deg);
-    background-color: var(--primary-color);
+    transition: stroke 0.6s ease-out;
 }
 
 .value-item:hover .value-icon svg {
@@ -542,16 +515,12 @@ canvas#particles {
 .value-item h3 {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
-    transition: color 0.3s var(--easing); /* Speeded up */
+    transition: color 0.6s ease-out;
 }
 
 .value-item p {
     font-size: 0.85rem;
     margin-bottom: 0;
-}
-
-.value-item:hover h3 {
-    color: var(--primary-color);
 }
 
 .about-image {
@@ -575,7 +544,7 @@ canvas#particles {
     border-radius: 50%;
     opacity: 0.7;
     filter: blur(1px);
-    animation: float 6s ease-in-out infinite; /* Speeded up */
+    animation: float 8s ease-in-out infinite;
 }
 
 .floating-element:nth-child(1) {
@@ -590,7 +559,7 @@ canvas#particles {
     height: 100px;
     top: 60%;
     left: 60%;
-    animation-delay: 1.5s; /* Speeded up */
+    animation-delay: 2s;
 }
 
 .floating-element:nth-child(3) {
@@ -598,7 +567,7 @@ canvas#particles {
     height: 70px;
     top: 30%;
     left: 70%;
-    animation-delay: 3s; /* Speeded up */
+    animation-delay: 4s;
 }
 
 @keyframes float {
@@ -630,7 +599,7 @@ canvas#particles {
     border-radius: 10px;
     padding: 2rem;
     box-shadow: var(--shadow);
-    transition: transform 0.2s var(--easing), box-shadow 0.2s var(--easing); /* Speeded up */
+    transition: transform 0.4s var(--easing), box-shadow 0.4s var(--easing);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -649,7 +618,7 @@ canvas#particles {
     background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     z-index: -1;
     opacity: 0;
-    transition: opacity 0.2s var(--easing); /* Speeded up */
+    transition: opacity 0.4s var(--easing);
 }
 
 .service-card:hover {
@@ -709,10 +678,10 @@ canvas#particles {
 .service-details {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s var(--easing); /* Speeded up */
+    transition: max-height 0.6s var(--easing);
     margin-top: auto;
     padding-top: 0;
-    transition: max-height 0.3s var(--easing), padding-top 0.3s var(--easing); /* Speeded up */
+    transition: max-height 0.6s var(--easing), padding-top 0.6s var(--easing);
 }
 
 .service-card:hover .service-details {
@@ -732,7 +701,7 @@ canvas#particles {
     font-size: 0.9rem;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.2s var(--easing), transform 0.2s var(--easing); /* Speeded up */
+    transition: opacity 0.3s var(--easing), transform 0.3s var(--easing);
 }
 
 .service-card:hover .service-details li {
@@ -752,19 +721,19 @@ canvas#particles {
 }
 
 .service-card:hover .service-details li:nth-child(1) {
-    transition-delay: 0.05s; /* Speeded up */
+    transition-delay: 0.1s;
 }
 
 .service-card:hover .service-details li:nth-child(2) {
-    transition-delay: 0.1s; /* Speeded up */
+    transition-delay: 0.2s;
 }
 
 .service-card:hover .service-details li:nth-child(3) {
-    transition-delay: 0.15s; /* Speeded up */
+    transition-delay: 0.3s;
 }
 
 .service-card:hover .service-details li:nth-child(4) {
-    transition-delay: 0.2s; /* Speeded up */
+    transition-delay: 0.4s;
 }
 
 /* Why Us Section */
@@ -807,15 +776,8 @@ canvas#particles {
     margin-bottom: 2.5rem;
     padding-bottom: 2.5rem;
     opacity: 0;
-    transition: opacity 0.3s var(--easing), transform 0.3s var(--easing); /* Speeded up */
-}
-
-.process-left {
-    transform: translateX(-30px);
-}
-
-.process-right {
-    transform: translateX(30px);
+    transform: translateX(-20px);
+    transition: opacity 0.6s var(--easing), transform 0.6s var(--easing);
 }
 
 .process-item.visible {
@@ -834,7 +796,7 @@ canvas#particles {
     background-color: var(--primary-color);
     border: 3px solid var(--white);
     box-shadow: 0 0 0 2px var(--primary-color);
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Speeded up */
+    transition: transform 0.6s ease-out, box-shadow 0.6s ease-out;
 }
 
 .process-item:hover::before {
@@ -860,7 +822,7 @@ canvas#particles {
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Speeded up */
+    transition: transform 0.6s ease-out, box-shadow 0.6s ease-out;
 }
 
 .process-item:hover .process-content {
@@ -893,7 +855,7 @@ canvas#particles {
 
 .testimonial-track {
     display: flex;
-    transition: transform 0.3s ease-out; /* Speeded up */
+    transition: transform 0.6s ease-out;
     width: 300%;
 }
 
@@ -904,7 +866,7 @@ canvas#particles {
     border-radius: 15px;
     padding: 2rem;
     box-shadow: var(--shadow);
-    transition: opacity 0.3s var(--easing), transform 0.3s var(--easing); /* Speeded up */
+    transition: opacity 0.6s var(--easing), transform 0.6s var(--easing);
     opacity: 0;
     transform: scale(0.9);
 }
@@ -921,7 +883,6 @@ canvas#particles {
     margin-bottom: 2rem;
     position: relative;
     padding-left: 2rem;
-    padding-right: 2rem; /* Added padding for visibility */
 }
 
 .quote::before {
@@ -1137,7 +1098,7 @@ canvas#particles {
     height: 100%;
     background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
     transform: translateX(-100%);
-    transition: transform 0.3s var(--easing); /* Speeded up */
+    transition: transform 0.6s var(--easing);
 }
 
 .submit-btn:hover {
@@ -1302,7 +1263,7 @@ footer {
         align-items: center;
         z-index: 1000;
         transform: translateY(-100%);
-        transition: transform 0.3s var(--easing); /* Speeded up */
+        transition: transform 0.6s var(--easing);
     }
     
     .nav-links.active {
@@ -1416,7 +1377,7 @@ footer {
 
 /* AOS animations */
 [data-aos] {
-    transition: opacity 0.3s var(--easing), transform 0.3s var(--easing); /* Speeded up */
+    transition: opacity 0.6s var(--easing), transform 0.6s var(--easing);
 }
 
 [data-aos="fade-up"] {
