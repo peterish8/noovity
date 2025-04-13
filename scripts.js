@@ -1,169 +1,107 @@
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded and ready to roll!');
-
-    // Simple Scroll Animation Trigger with Fallback
-    function handleScrollAnimation() {
+document.addEventListener('DOMContentLoaded', () => {
+    // Scroll Animation
+    const animateOnScroll = () => {
         const elements = document.querySelectorAll('.animate');
+        const windowHeight = window.innerHeight;
+        
         elements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-            const revealPoint = 150; // Trigger animation when element is 150px from top
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
 
-            if (rect.top <= windowHeight - revealPoint || document.readyState === 'complete') {
+            if (elementTop < windowHeight - elementVisible) {
                 element.classList.add('visible');
-            } else {
-                // Fallback to ensure visibility if JavaScript fails
-                element.style.opacity = '1';
-                element.style.transform = 'none';
             }
         });
-    }
+    };
 
-    // Initial check and event listener for scroll
-    handleScrollAnimation(); // Run on load to show initial content
-    window.addEventListener('scroll', handleScrollAnimation);
-    window.addEventListener('load', handleScrollAnimation); // Double-check on full load
-
-    // Header scroll effect
+    // Header Scroll Effect
     const header = document.querySelector('header');
     if (header) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
         });
     }
 
-    // Mobile menu toggle with animation
+    // Mobile Menu
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
-    const navItems = document.querySelectorAll('.nav-links li');
-    
     if (hamburger && navLinks) {
-        hamburger.addEventListener('click', function() {
-            this.classList.toggle('active');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            
-            navItems.forEach((item, index) => {
-                if (item.style.animation) {
-                    item.style.animation = '';
-                } else {
-                    item.style.animation = `navItemFade 0.5s ease forwards ${index * 0.1 + 0.3}s`;
-                }
-            });
         });
     }
 
-    // Enhanced smooth scrolling with offset
+    // Smooth Scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                const offset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - offset;
-
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
                 window.scrollTo({
-                    top: offsetPosition,
+                    top: target.offsetTop - 80,
                     behavior: 'smooth'
                 });
                 
+                // Close mobile menu if open
                 if (navLinks && navLinks.classList.contains('active')) {
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
-                    navItems.forEach(item => {
-                        item.style.animation = '';
-                    });
                 }
             }
         });
     });
 
-    // Particles animation with performance optimization
-    const canvas = document.getElementById('particles');
-    if (canvas) {
+    // Particles Animation
+    const initParticles = () => {
+        const canvas = document.getElementById('particles');
+        if (!canvas) return;
+
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
         let particles = [];
-        const particleCount = Math.floor(window.innerWidth / 10);
-
-        let resizeTimeout;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(function() {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-                initParticles();
-            }, 200);
-        });
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.size = Math.random() * 3 + 1;
+                this.size = Math.random() * 2 + 1;
                 this.speedX = Math.random() * 2 - 1;
                 this.speedY = Math.random() * 2 - 1;
-                this.color = `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.1})`;
             }
 
-            update(mouse) {
-                if (mouse.x && mouse.y) {
-                    const dx = mouse.x - this.x;
-                    const dy = mouse.y - this.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    const maxDistance = 100;
-                    
-                    if (distance < maxDistance) {
-                        const force = (maxDistance - distance) / maxDistance;
-                        this.x -= dx * force * 0.1;
-                        this.y -= dy * force * 0.1;
-                    }
-                }
-
+            update() {
                 if (this.x > width || this.x < 0) this.speedX *= -1;
                 if (this.y > height || this.y < 0) this.speedY *= -1;
-
                 this.x += this.speedX;
                 this.y += this.speedY;
             }
 
             draw() {
-                ctx.fillStyle = this.color;
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.1})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        const mouse = { x: null, y: null };
-        window.addEventListener('mousemove', function(event) {
-            mouse.x = event.x;
-            mouse.y = event.y;
-        });
-
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
+        // Initialize particles
+        for (let i = 0; i < Math.floor(width / 15); i++) {
+            particles.push(new Particle());
         }
 
-        function animate() {
+        // Animation loop
+        const animate = () => {
             ctx.clearRect(0, 0, width, height);
             
+            // Draw particles
             particles.forEach(particle => {
-                particle.update(mouse);
+                particle.update();
                 particle.draw();
             });
 
+            // Draw connections
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
@@ -182,126 +120,98 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             requestAnimationFrame(animate);
-        }
+        };
 
-        initParticles();
+        // Handle resize
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < Math.floor(width / 15); i++) {
+                particles.push(new Particle());
+            }
+        });
+
         animate();
-    }
+    };
 
-    // Testimonial slider with infinite right scroll and touch support
-    const testimonialTrack = document.querySelector('.testimonial-track');
-    const testimonialCards = document.querySelectorAll('.testimonial-card');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    
-    if (testimonialTrack && testimonialCards.length > 0) {
+    // Testimonial Slider
+    const initTestimonialSlider = () => {
+        const track = document.querySelector('.testimonial-track');
+        const cards = document.querySelectorAll('.testimonial-card');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        
+        if (!track || !cards.length) return;
+
         let currentIndex = 0;
-        let isDragging = false;
-        let startPos = 0;
-        let currentTranslate = 0;
-        let prevTranslate = 0;
-        let animationID;
         let autoSlideInterval;
 
-        testimonialTrack.addEventListener('touchstart', touchStart);
-        testimonialTrack.addEventListener('touchend', touchEnd);
-        testimonialTrack.addEventListener('touchmove', touchMove);
+        const updateSlider = () => {
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+        };
 
-        function touchStart(e) {
-            startPos = e.touches[0].clientX;
-            isDragging = true;
-            clearInterval(autoSlideInterval);
-            cancelAnimationFrame(animationID);
-        }
+        const nextSlide = () => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateSlider();
+        };
 
-        function touchEnd() {
-            isDragging = false;
-            const movedBy = currentTranslate - prevTranslate;
-            
-            if (movedBy < -100 && currentIndex < testimonialCards.length - 1) currentIndex += 1;
-            if (movedBy > 100 && currentIndex > 0) currentIndex -= 1;
-            
-            setPositionByIndex();
-            startAutoSlide();
-        }
+        const prevSlide = () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateSlider();
+        };
 
-        function touchMove(e) {
-            if (isDragging) {
-                const currentPosition = e.touches[0].clientX;
-                currentTranslate = prevTranslate + currentPosition - startPos;
-                testimonialTrack.style.transform = `translateX(${currentTranslate}px)`;
-            }
-        }
+        const startAutoSlide = () => {
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        };
 
-        function setPositionByIndex() {
-            currentIndex = currentIndex % testimonialCards.length;
-            if (currentIndex < 0) currentIndex = testimonialCards.length - 1;
-            testimonialTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
-            prevTranslate = -currentIndex * testimonialTrack.offsetWidth;
-            currentTranslate = prevTranslate;
-            
-            testimonialCards.forEach((card, index) => {
-                card.classList.toggle('active', index === currentIndex);
-            });
-            
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
-        }
-
-        function startAutoSlide() {
-            autoSlideInterval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % testimonialCards.length;
-                setPositionByIndex();
-            }, 5000);
-        }
-
-        setPositionByIndex();
+        // Initialize
+        updateSlider();
         startAutoSlide();
 
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + testimonialCards.length) % testimonialCards.length;
-                setPositionByIndex();
-                resetAutoSlide();
-            });
-        }
+        // Navigation controls
+        if (nextBtn) nextBtn.addEventListener('click', () => {
+            nextSlide();
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        });
 
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % testimonialCards.length;
-                setPositionByIndex();
-                resetAutoSlide();
-            });
-        }
+        if (prevBtn) prevBtn.addEventListener('click', () => {
+            prevSlide();
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        });
 
+        // Dot navigation
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 currentIndex = index;
-                setPositionByIndex();
-                resetAutoSlide();
+                updateSlider();
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
             });
         });
 
-        function resetAutoSlide() {
-            clearInterval(autoSlideInterval);
-            startAutoSlide();
-        }
+        // Pause on hover
+        track.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+        track.addEventListener('mouseleave', startAutoSlide);
+    };
 
-        testimonialTrack.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-        testimonialTrack.addEventListener('mouseleave', startAutoSlide);
-    }
+    // Form Submission
+    const initContactForm = () => {
+        const contactForm = document.querySelector('.contact-form');
+        if (!contactForm) return;
 
-    // Form submission with validation
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            const name = this.querySelector('#name').value.trim();
-            const email = this.querySelector('#email').value.trim();
-            const message = this.querySelector('#message').value.trim();
+            // Form validation
+            const name = contactForm.querySelector('#name').value.trim();
+            const email = contactForm.querySelector('#email').value.trim();
+            const message = contactForm.querySelector('#message').value.trim();
             
             if (!name || !email || !message) {
                 showFormMessage('Please fill all required fields', 'error');
@@ -313,107 +223,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            const formData = new FormData(this);
-            const formValues = Object.fromEntries(formData.entries());
-            console.log('Form submission:', formValues);
-            
+            // Form submission (simulated)
             showFormMessage('Thank you! Your message has been sent.', 'success');
-            this.reset();
+            contactForm.reset();
         });
-        
-        function showFormMessage(text, type) {
-            const existing = document.querySelector('.form-message');
-            if (existing) existing.remove();
-            
+
+        const showFormMessage = (text, type) => {
+            const existingMessage = document.querySelector('.form-message');
+            if (existingMessage) existingMessage.remove();
+
             const message = document.createElement('div');
             message.className = `form-message ${type}`;
             message.textContent = text;
             
-            const styles = {
-                padding: '1rem',
-                margin: '1rem 0',
-                borderRadius: '5px',
-                color: type === 'error' ? '#721c24' : '#155724',
-                backgroundColor: type === 'error' ? '#f8d7da' : '#d4edda',
-                border: type === 'error' ? '1px solid #f5c6cb' : '1px solid #c3e6cb'
-            };
-            
-            Object.assign(message.style, styles);
-            
+            // Style the message
+            message.style.cssText = `
+                padding: 1rem;
+                margin: 1rem 0;
+                border-radius: 5px;
+                color: ${type === 'error' ? '#721c24' : '#155724'};
+                background-color: ${type === 'error' ? '#f8d7da' : '#d4edda'};
+                border: 1px solid ${type === 'error' ? '#f5c6cb' : '#c3e6cb'};
+            `;
+
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             contactForm.insertBefore(message, submitBtn);
             
+            // Auto-hide message
             setTimeout(() => {
+                message.style.transition = 'opacity 0.5s';
                 message.style.opacity = '0';
                 setTimeout(() => message.remove(), 500);
             }, 5000);
-        }
-    }
+        };
+    };
 
-    // Cursor interaction for About Us bubbles
-    const imageContainer = document.querySelector('.image-container');
-    if (imageContainer) {
-        const floatingElements = document.querySelectorAll('.floating-element');
-        let mouse = { x: null, y: null };
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-
-        function updateBubblePositions() {
-            floatingElements.forEach(el => {
-                const rect = imageContainer.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                const dx = mouse.x - centerX;
-                const dy = mouse.y - centerY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const maxDistance = 200;
-                const force = distance < maxDistance ? (maxDistance - distance) / maxDistance * 20 : 0;
-
-                let translateX = dx * force / 100;
-                let translateY = dy * force / 100;
-                const index = parseInt(el.getAttribute('data-index'));
-                translateX += Math.sin(Date.now() / 1000 + index) * 5; // Wobble effect
-                translateY += Math.cos(Date.now() / 1000 + index) * 5;
-
-                el.style.transform = `translate(${translateX}px, ${translateY}px)`;
-            });
-            requestAnimationFrame(updateBubblePositions);
-        }
-
-        updateBubblePositions();
-    }
-
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes navItemFade {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-
-    console.log('All JavaScript initialized successfully. Check console for errors if text is missing!');
+    // Initialize all components
+    animateOnScroll();
+    window.addEventListener('scroll', animateOnScroll);
+    initParticles();
+    initTestimonialSlider();
+    initContactForm();
 });
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-} else {
-    init();
-}
-
-function init() {
-    // Ensure initialization runs if DOM is already loaded
-    console.log('Init called as fallback');
-    handleScrollAnimation(); // Force initial visibility
-}
