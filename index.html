@@ -7,18 +7,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- AOS CSS with Local Fallback -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" onerror="this.onerror=null;this.href='/aos.css';">
-    <noscript>
-        <style>
-            [data-aos] {
-                opacity: 1 !important;
-                transform: none !important;
-            }
-        </style>
-    </noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" onerror="this.href='https://fonts.cdnfonts.com/css/montserrat';this.onerror=null;">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" onerror="this.href='/font-awesome.min.css';this.onerror=null;">
 </head>
 <body>
     <header>
@@ -34,7 +24,7 @@
                     <li><a href="#services" class="nav-link">Services</a></li>
                     <li><a href="#why-us" class="nav-link">Why Us</a></li>
                     <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
-                    <li><a href="#contact" class="nav-cta">Contact</a></li>
+                    <li><a href="#contact" class="cta-button stylish-cta">Contact</a></li>
                 </ul>
                 <div class="hamburger">
                     <span></span>
@@ -47,12 +37,12 @@
 
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1 data-aos="fade-down" data-aos-delay="100">Crafting Digital Excellence with Noovity</h1>
-            <p data-aos="fade-down" data-aos-delay="200">A Softcraft venture delivering powerful software solutions tailored for growth.</p>
-            <a href="#contact" class="cta-button pulse" data-aos="fade-up" data-aos-delay="300">Let's Build Together</a>
+            <h1 class="animate fade-down" data-delay="100">Crafting Digital Excellence with Noovity</h1>
+            <p class="animate fade-down" data-delay="200">A Softcraft venture delivering powerful software solutions tailored for growth.</p>
+            <a href="#contact" class="cta-button pulse animate fade-up" data-delay="300">Let's Build Together</a>
         </div>
         <canvas id="particles"></canvas>
-        <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="500">
+        <div class="scroll-indicator animate fade-up" data-delay="500">
             <span></span>
             <span></span>
             <span></span>
@@ -62,11 +52,11 @@
     <section id="about" class="about">
         <div class="container">
             <div class="about-content">
-                <div class="about-text" data-aos="fade-right">
-                    <h2>About Us</h2>
-                    <p>At Noovity, we're passionate about transforming ideas into powerful digital solutions. As a Softcraft venture, we combine technical expertise with creative innovation to deliver software that drives growth and success.</p>
+                <div class="about-text">
+                    <h2 class="animate fade-right" data-delay="100">About Us</h2>
+                    <p class="animate fade-right" data-delay="200">At Noovity, we're passionate about transforming ideas into powerful digital solutions. As a Softcraft venture, we combine technical expertise with creative innovation to deliver software that drives growth and success.</p>
                     <div class="values">
-                        <div class="value-item" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="value-item animate zoom-in" data-delay="300">
                             <div class="value-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -75,7 +65,7 @@
                             <h3>Trust</h3>
                             <p>Building relationships on reliability and transparency</p>
                         </div>
-                        <div class="value-item" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="value-item animate zoom-in" data-delay="400">
                             <div class="value-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
@@ -84,7 +74,7 @@
                             <h3>Innovation</h3>
                             <p>Pushing boundaries with forward-thinking solutions</p>
                         </div>
-                        <div class="value-item" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="value-item animate zoom-in" data-delay="500">
                             <div class="value-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -96,13 +86,22 @@
                             <h3>Partnership</h3>
                             <p>Working together to achieve shared success</p>
                         </div>
+                        <div class="value-item animate zoom-in" data-delay="600">
+                            <div class="value-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                                </svg>
+                            </div>
+                            <h3>Excellence</h3>
+                            <p>Delivering top-tier quality in every project</p>
+                        </div>
                     </div>
                 </div>
-                <div class="about-image" data-aos="fade-left">
+                <div class="about-image animate fade-left" data-delay="700">
                     <div class="image-container">
-                        <div class="floating-element"></div>
-                        <div class="floating-element"></div>
-                        <div class="floating-element"></div>
+                        <div class="floating-element" data-index="0"></div>
+                        <div class="floating-element" data-index="1"></div>
+                        <div class="floating-element" data-index="2"></div>
                     </div>
                 </div>
             </div>
@@ -111,9 +110,9 @@
 
     <section id="services" class="services">
         <div class="container">
-            <h2 data-aos="fade-up">Our Services</h2>
+            <h2 class="animate fade-up" data-delay="100">Our Services</h2>
             <div class="services-grid">
-                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-card animate fade-up" data-delay="200">
                     <div class="service-icon">
                         <i class="fas fa-robot"></i>
                     </div>
@@ -128,7 +127,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-card animate fade-up" data-delay="300">
                     <div class="service-icon">
                         <i class="fas fa-code"></i>
                     </div>
@@ -139,11 +138,11 @@
                             <li>Requirement analysis</li>
                             <li>Custom application development</li>
                             <li>API development & integration</li>
-                            <li>Ongoing maintenance & updates</li> <!-- Updated last point -->
+                            <li>Ongoing maintenance & updates</li>
                         </ul>
                     </div>
                 </div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-card animate fade-up" data-delay="400">
                     <div class="service-icon">
                         <i class="fas fa-globe"></i>
                     </div>
@@ -158,7 +157,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-card animate fade-up" data-delay="500">
                     <div class="service-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
@@ -169,7 +168,7 @@
                             <li>Native Android development</li>
                             <li>Material design implementation</li>
                             <li>Play Store deployment</li>
-                            <li>Ongoing maintenance & updates</li> <!-- Updated last point -->
+                            <li>Ongoing maintenance & updates</li>
                         </ul>
                     </div>
                 </div>
@@ -179,51 +178,51 @@
 
     <section id="why-us" class="why-us">
         <div class="container">
-            <h2 data-aos="fade-up">Why Choose Us</h2>
+            <h2 class="animate fade-up" data-delay="100">Why Choose Us</h2>
             <div class="process-container">
-                <div class="process-item" data-aos="fade-right" data-aos-delay="100">
+                <div class="process-item animate fade-right" data-delay="200">
                     <div class="process-number">01</div>
                     <div class="process-content">
                         <h3>Discovery</h3>
                         <p>We begin by thoroughly understanding your business needs, challenges, and goals through in-depth consultations.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="200">
+                <div class="process-item animate fade-right" data-delay="300">
                     <div class="process-number">02</div>
                     <div class="process-content">
                         <h3>Planning</h3>
                         <p>Our team creates a detailed project roadmap with milestones, deliverables, and timelines tailored to your requirements.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="300">
+                <div class="process-item animate fade-right" data-delay="400">
                     <div class="process-number">03</div>
                     <div class="process-content">
                         <h3>Design</h3>
                         <p>We craft intuitive user experiences and visually appealing interfaces that align with your brand identity.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="400">
+                <div class="process-item animate fade-right" data-delay="500">
                     <div class="process-number">04</div>
                     <div class="process-content">
                         <h3>Development</h3>
                         <p>Our developers build robust, scalable solutions using the latest technologies and best coding practices.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="500">
+                <div class="process-item animate fade-right" data-delay="600">
                     <div class="process-number">05</div>
                     <div class="process-content">
                         <h3>Testing</h3>
                         <p>We rigorously test every aspect of the solution to ensure quality, performance, and security standards.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="600">
+                <div class="process-item animate fade-right" data-delay="700">
                     <div class="process-number">06</div>
                     <div class="process-content">
                         <h3>Deployment</h3>
                         <p>We handle the seamless launch of your solution with minimal disruption to your operations.</p>
                     </div>
                 </div>
-                <div class="process-item" data-aos="fade-right" data-aos-delay="700">
+                <div class="process-item animate fade-right" data-delay="800">
                     <div class="process-number">07</div>
                     <div class="process-content">
                         <h3>Support</h3>
@@ -236,10 +235,10 @@
 
     <section id="testimonials" class="testimonials">
         <div class="container">
-            <h2 data-aos="fade-up">What Our Clients Say</h2>
+            <h2 class="animate fade-up" data-delay="100">What Our Clients Say</h2>
             <div class="testimonial-slider">
                 <div class="testimonial-track">
-                    <div class="testimonial-card active">
+                    <div class="testimonial-card animate fade-up" data-delay="200">
                         <div class="quote">"Noovity transformed our business with their innovative solutions. Their team's expertise and dedication exceeded our expectations."</div>
                         <div class="client-info">
                             <div class="client-image"></div>
@@ -249,7 +248,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="testimonial-card">
+                    <div class="testimonial-card animate fade-up" data-delay="300">
                         <div class="quote">"Working with Noovity has been a game-changer for our company. Their attention to detail and commitment to quality is unmatched."</div>
                         <div class="client-info">
                             <div class="client-image"></div>
@@ -259,7 +258,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="testimonial-card">
+                    <div class="testimonial-card animate fade-up" data-delay="400">
                         <div class="quote">"The team at Noovity delivered our project on time and within budget. Their technical expertise and creative approach solved problems we didn't even know we had."</div>
                         <div class="client-info">
                             <div class="client-image"></div>
@@ -275,7 +274,7 @@
                         <i class="fas fa-chevron-left"></i>
                     </button>
                     <div class="slider-dots">
-                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="0"></span>
                         <span class="dot" data-index="1"></span>
                         <span class="dot" data-index="2"></span>
                     </div>
@@ -290,9 +289,9 @@
     <section id="contact" class="contact">
         <div class="container">
             <div class="contact-content">
-                <h2 data-aos="fade-up">Let's bring your vision to life. Reach out today.</h2>
-                <a href="#" class="cta-button pulse" data-aos="fade-up" data-aos-delay="100">Get a Free Consultation</a>
-                <form class="contact-form" data-aos="fade-up" data-aos-delay="200">
+                <h2 class="animate fade-up" data-delay="100">Let's bring your vision to life. Reach out today.</h2>
+                <a href="#" class="cta-button pulse animate fade-up" data-delay="200">Get a Free Consultation</a>
+                <form class="contact-form animate fade-up" data-delay="300">
                     <div class="form-group">
                         <input type="text" id="name" name="name" required>
                         <label for="name">Your Name</label>
@@ -318,11 +317,11 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo" data-aos="fade-up">
+                <div class="footer-logo animate fade-up" data-delay="100">
                     <h2>Noovity</h2>
                     <span>by Softcraft</span>
                 </div>
-                <div class="footer-links" data-aos="fade-up" data-aos-delay="100">
+                <div class="footer-links animate fade-up" data-delay="200">
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#home">Home</a></li>
@@ -333,21 +332,13 @@
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
-                <div class="footer-social" data-aos="fade-up" data-aos-delay="200">
+                <div class="footer-social animate fade-up" data-delay="300">
                     <h3>Connect With Us</h3>
                     <div class="social-icons">
-                        <a href="#" aria-label="LinkedIn">
-                            <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
-                        </a>
-                        <a href="#" aria-label="Twitter">
-                            <div class="social-icon"><i class="fab fa-twitter"></i></div>
-                        </a>
-                        <a href="#" aria-label="Facebook">
-                            <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
-                        </a>
-                        <a href="#" aria-label="Instagram">
-                            <div class="social-icon"><i class="fab fa-instagram"></i></div>
-                        </a>
+                        <a href="#" aria-label="LinkedIn"><div class="social-icon"><i class="fab fa-linkedin-in"></i></div></a>
+                        <a href="#" aria-label="Twitter"><div class="social-icon"><i class="fab fa-twitter"></i></div></a>
+                        <a href="#" aria-label="Facebook"><div class="social-icon"><i class="fab fa-facebook-f"></i></div></a>
+                        <a href="#" aria-label="Instagram"><div class="social-icon"><i class="fab fa-instagram"></i></div></a>
                     </div>
                 </div>
             </div>
@@ -357,8 +348,6 @@
         </div>
     </footer>
 
-    <!-- AOS Initialization with Local Fallback -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" onerror="this.onerror=null;this.src='/aos.js';"></script>
     <script src="script.js"></script>
 </body>
 </html>
