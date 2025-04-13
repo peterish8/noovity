@@ -9,17 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- AOS CSS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Fallback AOS CSS -->
-    <noscript>
-        <style>
-            [data-aos] {
-                opacity: 1 !important;
-                transform: none !important;
-            }
-        </style>
-    </noscript>
+    <!-- AOS CSS with corrected version -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
 </head>
 <body>
     <header>
@@ -353,61 +344,55 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Noovity. All rights reserved. A Softcraft company.</p>
+                <p>© 2025 Noovity. All rights reserved. A Softcraft company.</p>
             </div>
         </div>
     </footer>
 
-    <!-- AOS Initialization with Fallback -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- AOS Script with Fallback -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
-        // Initialize AOS with fallback
-        function initAOS() {
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check if AOS is loaded
+        if (typeof AOS === 'undefined') {
+          console.warn('AOS not loaded from primary CDN, attempting fallback');
+          const fallbackScript = document.createElement('script');
+          fallbackScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js';
+          fallbackScript.onload = function() {
             if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    easing: 'ease-in-out',
-                    once: true,
-                    mirror: false,
-                    disable: window.innerWidth < 768
-                });
-                console.log('AOS initialized successfully');
+              AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true,
+                mirror: false,
+                disable: window.innerWidth < 768
+              });
+              console.log('AOS initialized from fallback CDN');
+              AOS.refresh();
             } else {
-                console.warn('AOS not loaded, trying fallback');
-                // Load from alternative CDN
-                const fallbackScript = document.createElement('script');
-                fallbackScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js';
-                fallbackScript.onload = function() {
-                    AOS.init({
-                        duration: 800,
-                        easing: 'ease-in-out',
-                        once: true,
-                        mirror: false
-                    });
-                };
-                document.body.appendChild(fallbackScript);
-                
-                // Add fallback CSS
-                const fallbackCSS = document.createElement('link');
-                fallbackCSS.rel = 'stylesheet';
-                fallbackCSS.href = 'https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css';
-                document.head.appendChild(fallbackCSS);
+              console.error('AOS fallback failed to load');
             }
-        }
+          };
+          document.body.appendChild(fallbackScript);
 
-        // Initialize when DOM is loaded
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            initAOS();
+          const fallbackCSS = document.createElement('link');
+          fallbackCSS.rel = 'stylesheet';
+          fallbackCSS.href = 'https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css';
+          document.head.appendChild(fallbackCSS);
         } else {
-            document.addEventListener('DOMContentLoaded', initAOS);
+          AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false,
+            disable: window.innerWidth < 768
+          });
+          console.log('AOS initialized successfully from primary CDN');
+          window.addEventListener('load', function() {
+            AOS.refresh();
+          });
         }
-
-        // Refresh on window load
-        window.addEventListener('load', function() {
-            if (typeof AOS !== 'undefined') {
-                AOS.refresh();
-            }
-        });
+      });
     </script>
     <script src="script.js"></script>
 </body>
