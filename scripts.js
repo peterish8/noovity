@@ -1,41 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');
 
-    // AOS initialization with error handling and fallback
-    function initAOS() {
-        if (typeof AOS === 'undefined') {
-            console.warn('AOS not loaded from CDN, attempting local fallback');
-            const aosScript = document.createElement('script');
-            aosScript.src = '/aos.js';
-            aosScript.onload = () => {
-                if (typeof AOS !== 'undefined') {
-                    AOS.init({
-                        duration: 800,
-                        easing: 'ease-in-out',
-                        once: true,
-                        mirror: false,
-                        disable: window.innerWidth < 768
-                    });
-                    console.log('AOS initialized from local fallback');
-                    AOS.refreshHard();
-                } else {
-                    console.error('AOS failed to load even with fallback');
-                }
-            };
-            document.body.appendChild(aosScript);
-        } else {
-            console.log('AOS successfully loaded, version:', AOS.version);
-            AOS.init({
-                duration: 800,
-                easing: 'ease-in-out',
-                once: true,
-                mirror: false,
-                disable: window.innerWidth < 768
-            });
-            window.addEventListener('load', () => AOS.refreshHard());
-        }
+    // Simple Scroll Animation Trigger
+    function handleScrollAnimation() {
+        const elements = document.querySelectorAll('.animate');
+        elements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+            const revealPoint = 150; // Trigger animation when element is 150px from top
+
+            if (rect.top <= windowHeight - revealPoint) {
+                element.classList.add('visible');
+            }
+        });
     }
-    initAOS();
+
+    // Initial check and event listener for scroll
+    handleScrollAnimation(); // Run on load to show initial content
+    window.addEventListener('scroll', handleScrollAnimation);
 
     // Header scroll effect
     const header = document.querySelector('header');
@@ -201,22 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animate();
     }
 
-    // Process section animation with intersection observer
-    const processItems = document.querySelectorAll('.process-item');
-    if (processItems.length > 0) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        processItems.forEach(item => {
-            observer.observe(item);
-        });
-    }
+    // Process section animation with scroll (handled by general animation logic)
 
     // Testimonial slider with infinite right scroll and touch support
     const testimonialTrack = document.querySelector('.testimonial-track');
@@ -265,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function setPositionByIndex() {
-            currentIndex = currentIndex % testimonialCards.length; // Infinite loop
+            currentIndex = currentIndex % testimonialCards.length;
             if (currentIndex < 0) currentIndex = testimonialCards.length - 1;
             testimonialTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
             prevTranslate = -currentIndex * testimonialTrack.offsetWidth;
@@ -282,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function startAutoSlide() {
             autoSlideInterval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % testimonialCards.length; // Infinite right scroll
+                currentIndex = (currentIndex + 1) % testimonialCards.length;
                 setPositionByIndex();
             }, 5000);
         }
@@ -378,6 +345,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => message.remove(), 500);
             }, 5000);
         }
+    }
+
+    // Cursor interaction for About Us bubbles
+    const imageContainer = document.querySelector('.image-container');
+    if (imageContainer) {
+        const floatingElements = document.querySelectorAll('.floating-element');
+        let mouse = { x: null, y: null };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function updateBubblePositions() {
+            floatingElements.forEach(el => {
+                const rect = imageContainer.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const dx = mouse.x - centerX;
+                const dy = mouse.y - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const maxDistance = 200;
+                const force = distance < maxDistance ? (maxDistance - distance) / maxDistance * 20 : 0;
+
+                let translateX = dx * force / 100;
+                let translateY = dy * force / 100;
+                const index = parseInt(el.getAttribute('data-index'));
+                translateX += Math.sin(Date.now() / 1000 + index) * 5; // Wobble effect
+                translateY += Math.cos(Date.now() / 1000 + index) * 5;
+
+                el.style.transform = `translate(${translateX}px, ${translateY}px)`;
+            });
+            requestAnimationFrame(updateBubblePositions);
+        }
+
+        updateBubblePositions();
     }
 
     const style = document.createElement('style');
