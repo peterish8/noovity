@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded');
+    console.log('DOM fully loaded and ready to roll!');
 
-    // Simple Scroll Animation Trigger
+    // Simple Scroll Animation Trigger with Fallback
     function handleScrollAnimation() {
         const elements = document.querySelectorAll('.animate');
         elements.forEach(element => {
@@ -9,8 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const windowHeight = window.innerHeight || document.documentElement.clientHeight;
             const revealPoint = 150; // Trigger animation when element is 150px from top
 
-            if (rect.top <= windowHeight - revealPoint) {
+            if (rect.top <= windowHeight - revealPoint || document.readyState === 'complete') {
                 element.classList.add('visible');
+            } else {
+                // Fallback to ensure visibility if JavaScript fails
+                element.style.opacity = '1';
+                element.style.transform = 'none';
             }
         });
     }
@@ -18,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial check and event listener for scroll
     handleScrollAnimation(); // Run on load to show initial content
     window.addEventListener('scroll', handleScrollAnimation);
+    window.addEventListener('load', handleScrollAnimation); // Double-check on full load
 
     // Header scroll effect
     const header = document.querySelector('header');
@@ -182,8 +187,6 @@ document.addEventListener('DOMContentLoaded', function() {
         initParticles();
         animate();
     }
-
-    // Process section animation with scroll (handled by general animation logic)
 
     // Testimonial slider with infinite right scroll and touch support
     const testimonialTrack = document.querySelector('.testimonial-track');
@@ -400,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 
-    console.log('All JavaScript initialized successfully');
+    console.log('All JavaScript initialized successfully. Check console for errors if text is missing!');
 });
 
 if (document.readyState === 'loading') {
@@ -411,4 +414,6 @@ if (document.readyState === 'loading') {
 
 function init() {
     // Ensure initialization runs if DOM is already loaded
+    console.log('Init called as fallback');
+    handleScrollAnimation(); // Force initial visibility
 }
