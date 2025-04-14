@@ -203,7 +203,7 @@
         .nav-cta {
             background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
             color: var(--white) !important;
-            padding: 0.8rem 2.5rem;
+            padding: 1rem 2.5rem;
             border-radius: 50px;
             box-shadow: var(--shadow);
             transition: transform 0.3s var(--easing), box-shadow 0.3s var(--easing);
@@ -212,25 +212,25 @@
             overflow: hidden;
         }
 
-        .nav-cta::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
-            transform: translateX(-100%);
-            transition: transform 0.6s var(--easing);
-        }
-
         .nav-cta:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .nav-cta:hover::after {
-            transform: translateX(100%);
+        .nav-cta.pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
         }
 
         .hamburger {
@@ -367,18 +367,6 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-            }
-        }
-
         .scroll-indicator {
             position: absolute;
             bottom: 30px;
@@ -512,11 +500,6 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            transition: transform 0.3s var(--easing);
-        }
-
-        .value-item:hover .value-icon {
-            transform: rotateY(360deg);
         }
 
         .value-icon i {
@@ -615,42 +598,47 @@
         .service-card {
             background-color: var(--white);
             border-radius: 10px;
-            padding: 2rem;
             box-shadow: var(--shadow);
             transition: transform 0.4s var(--easing), box-shadow 0.4s var(--easing);
             position: relative;
             overflow: hidden;
             z-index: 1;
             height: 300px;
-            display: flex;
-            flex-direction: column;
+            perspective: 1000px;
         }
 
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .service-card .card-inner {
+            position: relative;
             width: 100%;
             height: 100%;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform-style: preserve-3d;
+        }
+
+        .service-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .service-front, .service-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .service-front {
+            background-color: var(--white);
+        }
+
+        .service-back {
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s var(--easing);
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transform: rotateY(180deg);
             color: var(--white);
-        }
-
-        .service-card:hover::before {
-            opacity: 1;
-        }
-
-        .service-card:hover p {
-            color: rgba(255, 255, 255, 0.8);
         }
 
         .service-icon {
@@ -661,57 +649,33 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            transition: transform 0.6s var(--easing);
-        }
-
-        .service-card:hover .service-icon {
-            transform: rotate(360deg);
-        }
-
-        .service-card:not(:hover) .service-icon {
-            transition: transform 0.6s var(--easing);
-            transform: rotate(-360deg);
         }
 
         .service-icon i {
             font-size: 2rem;
             color: var(--primary-color);
-            transition: color 0.4s var(--easing);
         }
 
-        .service-card:hover .service-icon i {
+        .service-back .service-icon i {
+            font-size: 3rem;
             color: var(--white);
-            transform: scale(1.2);
         }
 
         .service-card h3 {
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
-            transition: var(--transition);
         }
 
         .service-card p {
             font-size: 0.95rem;
             margin-bottom: 1rem;
-            transition: var(--transition);
-        }
-
-        .service-details {
-            position: relative;
-            flex-grow: 1;
-            margin-top: auto;
-            overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .service-details::-webkit-scrollbar {
-            display: none;
+            text-align: center;
         }
 
         .service-details ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .service-details li {
@@ -719,10 +683,6 @@
             padding-left: 1.5rem;
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
-            color: var(--text-light);
-        }
-
-        .service-card:hover .service-details li {
             color: var(--white);
         }
 
@@ -733,47 +693,8 @@
             top: 0.5rem;
             width: 8px;
             height: 8px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-        }
-
-        .service-card:hover .service-details li::before {
             background-color: var(--white);
-        }
-
-        .service-slider {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
-            opacity: 0;
-            border-radius: 15px 0 0 15px;
-            transition: opacity 0.3s var(--easing);
-            z-index: 2;
-            cursor: pointer;
-        }
-
-        .service-card:hover .service-slider {
-            opacity: 0.9;
-        }
-
-        .service-slider .slider-track {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .service-slider .slider-thumb {
-            position: absolute;
-            width: 20px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: top 0.1s ease;
+            border-radius: 50%;
         }
 
         /* Why Us Section */
@@ -798,7 +719,7 @@
             position: relative;
             max-width: 800px;
             margin: 0 auto;
-            padding-left: 50px;
+            padding-left: 80px;
         }
 
         .process-container::before {
@@ -821,7 +742,7 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -50px;
+            left: -35px;
             width: 12px;
             height: 12px;
             border-radius: 50%;
@@ -838,7 +759,7 @@
 
         .process-number {
             position: absolute;
-            left: -70px;
+            left: -75px;
             top: -5px;
             font-size: 1.5rem;
             font-weight: 700;
@@ -1266,15 +1187,15 @@
             }
             
             .process-container {
-                padding-left: 40px;
+                padding-left: 60px;
             }
             
             .process-item::before {
-                left: -40px;
+                left: -35px;
             }
             
             .process-number {
-                left: -60px;
+                left: -55px;
             }
             
             .services-grid {
@@ -1298,7 +1219,7 @@
                 left: 0;
                 width: 100%;
                 height: 100vh;
-                background-color: var(--white);
+                background: linear-gradient(135deg, #076b49, #0a8a5f, #10b97e);
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
@@ -1317,16 +1238,20 @@
             }
             
             .nav-links a {
-                color: var(--text-color) !important;
+                color: var(--white) !important;
                 font-size: 1.2rem;
             }
             
             .nav-cta {
-                padding: 0.8rem 2rem;
+                padding: 1rem 2.5rem;
             }
             
             .hamburger {
                 display: flex;
+            }
+            
+            .hamburger.active span {
+                background-color: var(--white);
             }
             
             .hero-content h1 {
@@ -1360,20 +1285,16 @@
             }
             
             .process-container {
-                padding-left: 30px;
+                padding-left: 50px;
             }
             
             .process-item::before {
-                left: -30px;
+                left: -25px;
             }
             
             .process-number {
-                left: -50px;
+                left: -45px;
                 font-size: 1.2rem;
-            }
-            
-            .service-slider {
-                width: 25px;
             }
         }
 
@@ -1400,7 +1321,7 @@
             }
             
             .process-container {
-                padding-left: 20px;
+                padding-left: 40px;
             }
             
             .process-item::before {
@@ -1410,25 +1331,12 @@
             }
             
             .process-number {
-                left: -40px;
+                left: -35px;
                 font-size: 1rem;
-            }
-            
-            .process-content {
-                padding: 1rem;
             }
             
             .services-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .service-slider {
-                width: 20px;
-            }
-            
-            .service-slider .slider-thumb {
-                width: 15px;
-                height: 40px;
             }
         }
     </style>
@@ -1447,7 +1355,7 @@
                     <li><a href="#services" class="nav-link">Services</a></li>
                     <li><a href="#why-us" class="nav-link">Why Us</a></li>
                     <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
-                    <li><a href="#contact" class="nav-cta">Contact</a></li>
+                    <li><a href="#contact" class="nav-cta pulse">Contact</a></li>
                 </ul>
                 <div class="hamburger">
                     <span></span>
@@ -1512,90 +1420,102 @@
             <h2 class="animate-on-scroll">Our Services</h2>
             <div class="services-grid">
                 <div class="service-card animate-on-scroll animate-on-scroll-delay-1">
-                    <div class="service-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>Workflow Automation</h3>
-                    <p>Streamline your business processes with intelligent automation solutions</p>
-                    <div class="service-details">
-                        <ul>
-                            <li>Process analysis & optimization</li>
-                            <li>Custom automation workflows</li>
-                            <li>Integration with existing systems</li>
-                            <li>Continuous monitoring & improvement</li>
-                            <li>Performance tracking</li>
-                            <li>Data-driven insights</li>
-                        </ul>
-                    </div>
-                    <div class="service-slider">
-                        <div class="slider-track">
-                            <div class="slider-thumb"></div>
+                    <div class="card-inner">
+                        <div class="service-front">
+                            <div class="service-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>Workflow Automation</h3>
+                            <p>Streamline your business processes with intelligent automation solutions</p>
+                        </div>
+                        <div class="service-back">
+                            <div class="service-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="service-details">
+                                <ul>
+                                    <li>Process analysis</li>
+                                    <li>Custom workflows</li>
+                                    <li>System integration</li>
+                                    <li>Performance tracking</li>
+                                    <li>Data insights</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="service-card animate-on-scroll animate-on-scroll-delay-2">
-                    <div class="service-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Custom Software Development</h3>
-                    <p>Tailored solutions designed specifically for your business needs</p>
-                    <div class="service-details">
-                        <ul>
-                            <li>Requirement analysis</li>
-                            <li>Custom application development</li>
-                            <li>API development & integration</li>
-                            <li>Legacy system modernization</li>
-                            <li>Scalable architecture</li>
-                            <li>Secure coding practices</li>
-                        </ul>
-                    </div>
-                    <div class="service-slider">
-                        <div class="slider-track">
-                            <div class="slider-thumb"></div>
+                    <div class="card-inner">
+                        <div class="service-front">
+                            <div class="service-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>Custom Software Development</h3>
+                            <p>Tailored solutions designed specifically for your business needs</p>
+                        </div>
+                        <div class="service-back">
+                            <div class="service-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="service-details">
+                                <ul>
+                                    <li>Requirement analysis</li>
+                                    <li>Custom applications</li>
+                                    <li>API integration</li>
+                                    <li>Scalable architecture</li>
+                                    <li>Secure coding</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="service-card animate-on-scroll animate-on-scroll-delay-3">
-                    <div class="service-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3>Web Design & Development</h3>
-                    <p>Beautiful, functional websites that convert visitors into customers</p>
-                    <div class="service-details">
-                        <ul>
-                            <li>UI/UX design</li>
-                            <li>Responsive web development</li>
-                            <li>E-commerce solutions</li>
-                            <li>SEO optimization</li>
-                            <li>Content management systems</li>
-                            <li>Accessibility compliance</li>
-                        </ul>
-                    </div>
-                    <div class="service-slider">
-                        <div class="slider-track">
-                            <div class="slider-thumb"></div>
+                    <div class="card-inner">
+                        <div class="service-front">
+                            <div class="service-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>Web Design & Development</h3>
+                            <p>Beautiful, functional websites that convert visitors into customers</p>
+                        </div>
+                        <div class="service-back">
+                            <div class="service-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="service-details">
+                                <ul>
+                                    <li>UI/UX design</li>
+                                    <li>Responsive websites</li>
+                                    <li>E-commerce solutions</li>
+                                    <li>SEO optimization</li>
+                                    <li>Accessibility</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="service-card animate-on-scroll animate-on-scroll-delay-4">
-                    <div class="service-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Android App Development</h3>
-                    <p>High-performance mobile applications for the Android platform</p>
-                    <div class="service-details">
-                        <ul>
-                            <li>Native Android development</li>
-                            <li>Material design implementation</li>
-                            <li>Play Store deployment</li>
-                            <li>Ongoing maintenance & updates</li>
-                            <li>Cross-device compatibility</li>
-                            <li>User engagement features</li>
-                        </ul>
-                    </div>
-                    <div class="service-slider">
-                        <div class="slider-track">
-                            <div class="slider-thumb"></div>
+                    <div class="card-inner">
+                        <div class="service-front">
+                            <div class="service-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>Android App Development</h3>
+                            <p>High-performance mobile applications for the Android platform</p>
+                        </div>
+                        <div class="service-back">
+                            <div class="service-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="service-details">
+                                <ul>
+                                    <li>Native development</li>
+                                    <li>Material design</li>
+                                    <li>Play Store deployment</li>
+                                    <li>Maintenance</li>
+                                    <li>Compatibility</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1861,8 +1781,8 @@
                         this.baseX = this.x;
                         this.baseY = this.y;
                         this.size = Math.random() * 2 + 1;
-                        this.speedX = Math.random() * 2 - 1;
-                        this.speedY = Math.random() * 2 - 1;
+                        this.speedX = Math.random() * 3 - 1.5;
+                        this.speedY = Math.random() * 3 - 1.5;
                     }
 
                     update() {
@@ -1879,8 +1799,8 @@
                             if (distance < maxDistance) {
                                 const force = (maxDistance - distance) / maxDistance;
                                 const angle = Math.atan2(dy, dx);
-                                this.x -= Math.cos(angle) * force * 5;
-                                this.y -= Math.sin(angle) * force * 5;
+                                this.x -= Math.cos(angle) * force * 8;
+                                this.y -= Math.sin(angle) * force * 8;
                             }
                         }
 
@@ -1889,7 +1809,7 @@
                     }
 
                     draw() {
-                        ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.1})`;
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
                         ctx.beginPath();
                         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                         ctx.fill();
@@ -1916,7 +1836,7 @@
                             
                             if (distance < 100) {
                                 ctx.beginPath();
-                                ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 - distance/500})`;
+                                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
                                 ctx.lineWidth = 0.5;
                                 ctx.moveTo(particles[i].x, particles[i].y);
                                 ctx.lineTo(particles[j].x, particles[j].y);
@@ -1975,8 +1895,8 @@
                         if (distance < maxDistance) {
                             const force = (maxDistance - distance) / maxDistance;
                             const angle = Math.atan2(dy, dx);
-                            const wobbleX = Math.cos(angle) * force * 10;
-                            const wobbleY = Math.sin(angle) * force * 10;
+                            const wobbleX = Math.cos(angle) * force * 15;
+                            const wobbleY = Math.sin(angle) * force * 15;
                             element.style.transform = `translate(${wobbleX}px, ${wobbleY}px)`;
                         } else {
                             element.style.transform = 'translate(0, 0)';
@@ -1988,83 +1908,6 @@
                     floatingElements.forEach(element => {
                         element.style.transform = 'translate(0, 0)';
                     });
-                });
-            };
-
-            // Service Details Slider
-            const initServiceSliders = () => {
-                const serviceCards = document.querySelectorAll('.service-card');
-                
-                serviceCards.forEach(card => {
-                    const details = card.querySelector('.service-details');
-                    const ul = details.querySelector('ul');
-                    const slider = card.querySelector('.service-slider');
-                    const thumb = slider.querySelector('.slider-thumb');
-                    if (!details || !ul || !slider || !thumb) return;
-
-                    let isDragging = false;
-                    let startY = 0;
-                    let scrollPos = 0;
-
-                    const updateThumbPosition = () => {
-                        const containerHeight = details.offsetHeight;
-                        const contentHeight = ul.offsetHeight;
-                        if (contentHeight <= containerHeight) {
-                            slider.style.display = 'none';
-                            return;
-                        }
-                        const scrollRatio = scrollPos / (contentHeight - containerHeight);
-                        const thumbHeight = thumb.offsetHeight;
-                        const trackHeight = slider.offsetHeight - thumbHeight;
-                        thumb.style.top = `${scrollRatio * trackHeight}px`;
-                    };
-
-                    const updateScroll = (newPos) => {
-                        const containerHeight = details.offsetHeight;
-                        const contentHeight = ul.offsetHeight;
-                        scrollPos = Math.max(0, Math.min(newPos, contentHeight - containerHeight));
-                        ul.style.transform = `translateY(-${scrollPos}px)`;
-                        updateThumbPosition();
-                    };
-
-                    details.addEventListener('wheel', (e) => {
-                        if (card.matches(':hover')) {
-                            e.preventDefault();
-                            updateScroll(scrollPos + e.deltaY);
-                        }
-                    });
-
-                    slider.addEventListener('mousedown', (e) => {
-                        if (e.target === thumb || thumb.contains(e.target)) {
-                            isDragging = true;
-                            startY = e.clientY;
-                            e.preventDefault();
-                        }
-                    });
-
-                    document.addEventListener('mousemove', (e) => {
-                        if (!isDragging) return;
-                        const containerHeight = details.offsetHeight;
-                        const contentHeight = ul.offsetHeight;
-                        const trackHeight = slider.offsetHeight - thumb.offsetHeight;
-                        const dy = e.clientY - startY;
-                        const scrollRatio = dy / trackHeight;
-                        const newScroll = scrollPos + scrollRatio * (contentHeight - containerHeight);
-                        updateScroll(newScroll);
-                        startY = e.clientY;
-                    });
-
-                    document.addEventListener('mouseup', () => {
-                        isDragging = false;
-                    });
-
-                    card.addEventListener('mouseenter', () => {
-                        updateThumbPosition();
-                    });
-
-                    window.addEventListener('resize', updateThumbPosition);
-
-                    updateThumbPosition();
                 });
             };
 
@@ -2188,7 +2031,6 @@
             // Initialize all components
             initParticles();
             initFloatingElements();
-            initServiceSliders();
             initTestimonialSlider();
             initContactForm();
         });
