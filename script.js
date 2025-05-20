@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Header Scroll Effect
-    // This function adds a 'scrolled' class to the header when the user scrolls past 50px
     const header = document.querySelector('header');
     if (header) {
         window.addEventListener('scroll', () => {
@@ -9,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Mobile Menu Functionality
-    // Toggles the mobile menu when the hamburger icon is clicked
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     if (hamburger && navLinks) {
@@ -20,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Smooth Scroll for Anchor Links
-    // Adds smooth scrolling behavior to all anchor links starting with '#'
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -41,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Animation on Scroll Using Intersection Observer
-    // Animates elements with the 'animate-on-scroll' class when they enter the viewport
     const animateElements = document.querySelectorAll('.animate-on-scroll');
     const observerOptions = {
         root: null,
@@ -61,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animateElements.forEach(element => observer.observe(element));
 
     // Particles Animation with Cursor Interaction
-    // Creates a canvas-based particle animation that reacts to mouse movement
     const initParticles = () => {
         const canvas = document.getElementById('particles');
         if (!canvas) return;
@@ -170,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Floating Elements Cursor Interaction
-    // Adds a wobble effect to floating elements when the mouse moves over the image container
     const initFloatingElements = () => {
         const imageContainer = document.querySelector('.image-container');
         if (!imageContainer) return;
@@ -211,8 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Testimonial Slider (Fixed for Seamless Infinite Loop)
-    // Initializes a testimonial slider with infinite looping in both directions
+    // Testimonial Slider
     const initTestimonialSlider = () => {
         const track = document.querySelector('.testimonial-track');
         const cards = document.querySelectorAll('.testimonial-card');
@@ -224,27 +217,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let currentIndex = 0;
         let autoSlideInterval;
-        const totalOriginalCards = 3; // Number of original cards
+        const totalOriginalCards = 3;
 
         const updateSlider = () => {
-            const cardWidthPercentage = 100 / cards.length; // 16.6667% for 6 cards
+            const cardWidthPercentage = 100 / cards.length;
             const translateValue = -currentIndex * cardWidthPercentage;
             track.style.transform = `translateX(${translateValue}%)`;
-            // Set active class on the current card
             cards.forEach(card => card.classList.remove('active'));
             cards[currentIndex].classList.add('active');
-            // Sync dots with original cards
             dots.forEach(dot => dot.classList.remove('active'));
             dots[currentIndex % totalOriginalCards].classList.add('active');
         };
 
         const nextSlide = () => {
             if (currentIndex === 2) {
-                // Move to clone of card 0 (index 3)
                 currentIndex = 3;
                 track.style.transition = 'transform 0.6s ease';
                 updateSlider();
-                // After transition, reset to index 0 seamlessly
                 setTimeout(() => {
                     track.style.transition = 'none';
                     currentIndex = 0;
@@ -252,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         track.style.transition = 'transform 0.6s ease';
                     }, 20);
-                }, 600); // Match transition duration
+                }, 600);
             } else {
                 currentIndex++;
                 track.style.transition = 'transform 0.6s ease';
@@ -262,11 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const prevSlide = () => {
             if (currentIndex === 0) {
-                // Move to clone of card 0 (index 3) with transition
                 currentIndex = 3;
                 track.style.transition = 'transform 0.6s ease';
                 updateSlider();
-                // After transition, reset to index 2 seamlessly
                 setTimeout(() => {
                     track.style.transition = 'none';
                     currentIndex = 2;
@@ -274,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         track.style.transition = 'transform 0.6s ease';
                     }, 20);
-                }, 600); // Match transition duration
+                }, 600);
             } else {
                 currentIndex--;
                 track.style.transition = 'transform 0.6s ease';
@@ -286,11 +273,9 @@ document.addEventListener('DOMContentLoaded', () => {
             autoSlideInterval = setInterval(nextSlide, 5000);
         };
 
-        // Initialize slider
         updateSlider();
         startAutoSlide();
 
-        // Event Listeners
         if (nextBtn) nextBtn.addEventListener('click', () => {
             nextSlide();
             clearInterval(autoSlideInterval);
@@ -317,7 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Form Submission
-    // Handles contact form submission with validation and feedback messages
     const initContactForm = () => {
         const contactForm = document.querySelector('.contact-form');
         if (!contactForm) return;
@@ -372,14 +356,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Utility Function for Logging
-    // Adds a custom logging function for debugging purposes
     const logAction = (message, type = 'info') => {
         const timestamp = new Date().toISOString();
         console.log(`[${timestamp}] [${type.toUpperCase()}]: ${message}`);
     };
 
     // Error Handling Function
-    // Centralized error handling for the application
     const handleError = (error, context) => {
         logAction(`Error in ${context}: ${error.message}`, 'error');
         alert(`An error occurred: ${context}. Please try again or contact support.`);
